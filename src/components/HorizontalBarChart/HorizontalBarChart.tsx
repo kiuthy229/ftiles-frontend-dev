@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,6 +9,16 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import axios from "axios";
+import { requestURL } from "../../common/common";
+
+export type AllTopProductsData = {
+  productId: string;
+  productCode: string;
+  productName: string;
+  revenue: number;
+  quantity: number;
+};
 
 ChartJS.register(
   CategoryScale,
@@ -30,6 +40,7 @@ export const options = {
   plugins: {
     legend: {
       position: "right" as const,
+      display: false,
     },
     title: {
       display: true,
@@ -38,45 +49,40 @@ export const options = {
   },
 };
 
-const labels = [
-  "Gạch Ftiles 600x1200 1M62007",
-  "Gạch Ftiles 600x1200 1M62007",
-  "Gạch Ftiles 600x1200 1M62007",
-  "Gạch Ftiles 600x1200 1M62007",
-  "Gạch Ftiles 600x1200 1M62007",
-  "Gạch Ftiles 600x1200 1M62007",
-  "Gạch Ftiles 600x1200 1M62007",
-  "Gạch Ftiles 600x1200 1M62007",
-  "Gạch Ftiles 600x1200 1M62007",
-  "Gạch Ftiles 600x1200 1M62007",
-  "Gạch Ftiles 600x1200 1M62007",
-];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: [
-        "149000000",
-        "234000000",
-        "343400000",
-        "456000000",
-        "650000700",
-        "567000000",
-        "534000000",
-        "346000000",
-        "754000000",
-        "984000000",
-        "456000000",
-      ],
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-  ],
-};
-
 const HorizontalBarChart: React.FC = () => {
+  const [topProductsData, setTopProductsData] = useState<AllTopProductsData[]>(
+    []
+  );
+
+  const fetchData = async () => {
+    return await axios
+      .get(
+        `${requestURL}ftiles/dashboard/product/allTopProduct?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&by=revenue`,
+        { data: { method: "HEAD", mode: "no-cors" } }
+      )
+      .then((data: any) => {
+        setTopProductsData(data.data.data);
+      });
+  };
+
+  useLayoutEffect(() => {
+    fetchData();
+  }, []);
+
+  const labels = topProductsData.map((product) => product.productName);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "",
+        data: topProductsData.map((product) => product.revenue),
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+    ],
+  };
+
   return <Bar options={options} data={data} />;
 };
 

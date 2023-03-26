@@ -1,17 +1,26 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   Tooltip,
   Legend,
-  ArcElement,
   CategoryScale,
   LinearScale,
   BarElement,
   Title,
 } from "chart.js";
+import axios from "axios";
+import { requestURL } from "../../common/common";
 
-export type BarChartProps = {};
+//doanh thu thuần tháng này
+export interface AllRevenueDetails {
+  branchId: string;
+  branchName: string;
+  revenue: number;
+  invoices: string[];
+  revenueByPercent: number;
+}
+export type AllRevenueStates = Record<string, AllRevenueDetails[]>;
 
 export const options = {
   plugins: {
@@ -35,32 +44,6 @@ export const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: ["143000000", "234000000", "3434000000", "456000000", "657000000", "6557000000", "534000000"],
-      backgroundColor: "rgb(255, 99, 132)",
-      stack: "Stack 0",
-    },
-    {
-      label: "Dataset 2",
-      data: ["234000000", "348000000", "345000000", "472000000", "334000000", "356000000", "746000000"],
-      backgroundColor: "rgb(75, 192, 192)",
-      stack: "Stack 0",
-    },
-    {
-      label: "Dataset 3",
-      data: ["143000000", "234000000", "3434000000", "456000000", "657000000", "567000000", "534000000"],
-      backgroundColor: "rgb(53, 162, 235)",
-      stack: "Stack 1",
-    },
-  ],
-};
-
 const BarChart: React.FC = () => {
   ChartJS.register(
     CategoryScale,
@@ -70,6 +53,87 @@ const BarChart: React.FC = () => {
     Tooltip,
     Legend
   );
+
+  const [revenueByDayData, setRevenueByDayData] = useState<AllRevenueStates>(
+    {}
+  );
+
+  const fetchData = async () => {
+    return await axios
+      .get(
+        `${requestURL}ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&timeUnit=weekday`,
+        { data: { method: "HEAD", mode: "no-cors" } }
+      )
+      .then((data: any) => {
+        setRevenueByDayData(data.data.data);
+      });
+  };
+
+  useLayoutEffect(() => {
+    fetchData();
+  }, []);
+
+  let allBranchesInThisData: any[] = [];
+  let allDay = [];
+
+  for (let day in revenueByDayData) {
+    allDay.push(day);
+  }
+
+  for (let day in revenueByDayData) {
+    let branchInThisDay = revenueByDayData[day];
+    const allBranchName = branchInThisDay.map(
+      (branch: any) => branch.branchName
+    );
+    for (let branch of allBranchName) {
+      if (!allBranchesInThisData.includes(branch)) {
+        allBranchesInThisData.push(branch);
+      }
+    }
+  }
+
+  const temp: any = {};
+
+  for (let day in allDay) {
+    const key = allDay[day];
+
+    for (let branch in revenueByDayData[key]) {
+      if (temp[revenueByDayData[key][branch].branchName] === undefined) {
+        temp[revenueByDayData[key][branch].branchName] = [];
+      }
+      temp[revenueByDayData[key][branch].branchName].push(
+        revenueByDayData[key][branch].revenue
+      );
+    }
+  }
+
+  const labels = Object.keys(revenueByDayData).map((revenue) => revenue);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "3. Kho Tổng Miền Nam",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        data: temp["3. Kho Tổng Miền Nam"],
+      },
+      {
+        label: "Hồ Chí Minh 1 (Đại lý)",
+        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        data: temp["Hồ Chí Minh 1 (Đại lý)"],
+      },
+      {
+        label: "Hồ Chí Minh 3",
+        backgroundColor: "rgba(255, 206, 86, 0.5)",
+        data: temp["Hồ Chí Minh 3"],
+      },
+      {
+        label: "Chi nhánh thuế",
+        backgroundColor: "rgba(75, 192, 192, 0.5)",
+        data: temp["Chi nhánh thuế"],
+      },
+    ],
+  };
 
   return <Bar data={data} options={options} className="barchart__chart" />;
 };

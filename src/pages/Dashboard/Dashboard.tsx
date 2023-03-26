@@ -7,7 +7,7 @@ import VerticalBarChart from "../../components/VerticalBarChart.tsx/VerticalBarC
 const Dashboard: React.FC = () => {
   return (
     <>
-      <PieChart size={240} label={"Doanh thu thuần theo chi nhánh tháng này"} />
+      <PieChart />
       <BarChart />
       <HorizontalBarChart />
       <VerticalBarChart />
