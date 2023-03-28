@@ -65,11 +65,15 @@ const PieChart: React.FC = ({}) => {
     maintainAspectRatio: true,
   };
   return (
-    <div className="piechart" style={{ height: `240px`, width: `240px` }}>
+    <div className="piechart">
       <div className="piechart__label">
         {"Doanh thu thuần theo chi nhánh tháng này"}
       </div>
-      <Pie data={data} options={options} className="piechart__chart" />
+      <Pie
+        data={data}
+        options={options}
+        className="piechart__chart"
+      />
     </div>
   );
 };

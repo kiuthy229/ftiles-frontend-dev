@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import axios from "axios";
 import { requestURL } from "../../common/common";
+import "./GroupedBarChart.css";
 
 //doanh thu thuần tháng này
 export interface AllRevenueDetails {
@@ -135,7 +136,11 @@ const BarChart: React.FC = () => {
     ],
   };
 
-  return <Bar data={data} options={options} className="barchart__chart" />;
+  return (
+    <div className="barchart">
+      <Bar data={data} options={options} className="barchart__chart" />
+    </div>
+  );
 };
 
 export default BarChart;

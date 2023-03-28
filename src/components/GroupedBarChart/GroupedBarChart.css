@@ -1,4 +1,4 @@
-.piechart {
+.barchart {
   height: fit-content;
   width: fit-content;
   display: flex;
@@ -9,9 +9,10 @@
   background-color: #f7f9fb;
   border-radius: 8px;
   padding: 15px 100px 15px 100px;
+  margin: 10px;
 }
 
-.piechart__chart {
+.barchart__chart {
   width: 150px;
   height: 150px;
 }

@@ -11,6 +11,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { requestURL } from "../../common/common";
+import "./HorizontalBarChart.css";
 
 export type AllTopProductsData = {
   productId: string;
@@ -39,7 +40,7 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "right" as const,
+      position: "left" as const,
       display: false,
     },
     title: {
@@ -83,7 +84,11 @@ const HorizontalBarChart: React.FC = () => {
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  return (
+    <div className="barchart">
+      <Bar options={options} data={data} className="barchart__chart" />
+    </div>
+  );
 };
 
 export default HorizontalBarChart;
