@@ -13,8 +13,9 @@ const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
 
     // Subscribe to "my-channel" channel and "new_message" event
     const channel = pusher.subscribe("patecan_channel");
-    channel.bind("new_activity", (data: { data: string }) => {
-      const activity = JSON.parse(data.data);
+    channel.bind("new_activity", (data: any) => {
+      console.log(data)
+      const activity = data;
       const message = `${activity.subject} ${activity.conjunction1} ${activity.event} ${activity.conjunction2} ${activity.withValue} ${activity.atTime}`;
       // Add new message to messages state
       setMessages([...messages, message]);

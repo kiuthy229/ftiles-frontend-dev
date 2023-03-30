@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { requestURL } from "../../common/common";
 import "./GroupedBarChart.css";
+import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
 
 //doanh thu thuần tháng này
 export interface AllRevenueDetails {
@@ -24,6 +25,7 @@ export interface AllRevenueDetails {
 export type AllRevenueStates = Record<string, AllRevenueDetails[]>;
 
 export const options = {
+  skipNull: false,
   plugins: {
     title: {
       display: true,
@@ -59,6 +61,8 @@ const BarChart: React.FC = () => {
     {}
   );
 
+  const [rotateData, setRotateData] = useState<any>({});
+
   const fetchData = async () => {
     return await axios
       .get(
@@ -67,6 +71,7 @@ const BarChart: React.FC = () => {
       )
       .then((data: any) => {
         setRevenueByDayData(data.data.data);
+        setRotateData(rotateDataForStackedBar(data.data, "weekday"));
       });
   };
 
@@ -74,64 +79,43 @@ const BarChart: React.FC = () => {
     fetchData();
   }, []);
 
-  let allBranchesInThisData: any[] = [];
-  let allDay = [];
-
-  for (let day in revenueByDayData) {
-    allDay.push(day);
-  }
-
-  for (let day in revenueByDayData) {
-    let branchInThisDay = revenueByDayData[day];
-    const allBranchName = branchInThisDay.map(
-      (branch: any) => branch.branchName
-    );
-    for (let branch of allBranchName) {
-      if (!allBranchesInThisData.includes(branch)) {
-        allBranchesInThisData.push(branch);
-      }
-    }
-  }
-
-  const temp: any = {};
-
-  for (let day in allDay) {
-    const key = allDay[day];
-
-    for (let branch in revenueByDayData[key]) {
-      if (temp[revenueByDayData[key][branch].branchName] === undefined) {
-        temp[revenueByDayData[key][branch].branchName] = [];
-      }
-      temp[revenueByDayData[key][branch].branchName].push(
-        revenueByDayData[key][branch].revenue
-      );
-    }
-  }
-
-  const labels = Object.keys(revenueByDayData).map((revenue) => revenue);
+  let labels = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   const data = {
     labels,
     datasets: [
       {
-        label: "3. Kho Tổng Miền Nam",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-        data: temp["3. Kho Tổng Miền Nam"],
-      },
-      {
-        label: "Hồ Chí Minh 1 (Đại lý)",
-        backgroundColor: "rgba(54, 162, 235, 0.5)",
-        data: temp["Hồ Chí Minh 1 (Đại lý)"],
-      },
-      {
-        label: "Hồ Chí Minh 3",
-        backgroundColor: "rgba(255, 206, 86, 0.5)",
-        data: temp["Hồ Chí Minh 3"],
-      },
-      {
-        label: "Chi nhánh thuế",
+        label: Object.keys(rotateData)[0],
         backgroundColor: "rgba(75, 192, 192, 0.5)",
-        data: temp["Chi nhánh thuế"],
+        data: Object.values(rotateData)[0],
+      },
+      {
+        label: Object.keys(rotateData)[1],
+        backgroundColor: "rgba(75, 342, 142, 0.5)",
+        data: Object.values(rotateData)[1],
+      },
+      {
+        label: Object.keys(rotateData)[2],
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        data: Object.values(rotateData)[2],
+      },
+      {
+        label: Object.keys(rotateData)[3],
+        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        data: Object.values(rotateData)[3],
+      },
+      {
+        label: Object.keys(rotateData)[4],
+        backgroundColor: "rgba(255, 206, 86, 0.5)",
+        data: Object.values(rotateData)[4],
       },
     ],
   };

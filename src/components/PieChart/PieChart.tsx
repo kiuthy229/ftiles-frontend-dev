@@ -59,8 +59,24 @@ const PieChart: React.FC = ({}) => {
   };
   const options = {
     responsive: true,
+    pieceLabel: {
+      render: "label",
+      arc: true,
+      fontColor: "#000",
+      position: "outside",
+    },
     plugins: {
       legend: { display: false },
+      outlabels: {
+        text: "%l %p",
+        color: "black",
+        stretch: 45,
+        font: {
+          resizable: true,
+          minSize: 12,
+          maxSize: 18,
+        },
+      },
     },
     maintainAspectRatio: true,
   };
@@ -69,11 +85,7 @@ const PieChart: React.FC = ({}) => {
       <div className="piechart__label">
         {"Doanh thu thuần theo chi nhánh tháng này"}
       </div>
-      <Pie
-        data={data}
-        options={options}
-        className="piechart__chart"
-      />
+      <Pie data={data} options={options} className="piechart__chart" />
     </div>
   );
 };
