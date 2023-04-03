@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,10 +9,10 @@ import {
   BarElement,
   Title,
 } from "chart.js";
-import axios from "axios";
 import { requestURL } from "../../common/common";
-import "./GroupedBarChart.css";
 import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
+import axios from "axios";
+import "./GroupedBarChart.style.css";
 
 //doanh thu thuần tháng này
 export interface AllRevenueDetails {
@@ -28,8 +28,7 @@ export const options = {
   skipNull: false,
   plugins: {
     title: {
-      display: true,
-      text: "DOANH THU THUẦN THÁNG NÀY",
+      display: false,
     },
   },
   responsive: true,
@@ -57,9 +56,7 @@ const BarChart: React.FC = () => {
     Legend
   );
 
-  const [revenueByDayData, setRevenueByDayData] = useState<AllRevenueStates>(
-    {}
-  );
+  const [_, setRevenueByDayData] = useState<AllRevenueStates>({});
 
   const [rotateData, setRotateData] = useState<any>({});
 
@@ -121,8 +118,9 @@ const BarChart: React.FC = () => {
   };
 
   return (
-    <div className="barchart">
-      <Bar data={data} options={options} className="barchart__chart" />
+    <div className="chart">
+      <div className="title">DOANH THU THUẦN THÁNG NÀY</div>
+      <Bar data={data} options={options} />
     </div>
   );
 };

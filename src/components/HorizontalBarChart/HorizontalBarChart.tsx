@@ -11,7 +11,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { requestURL } from "../../common/common";
-import "./HorizontalBarChart.css";
+import "./HorizontalBarChart.style.css";
 
 export type AllTopProductsData = {
   productId: string;

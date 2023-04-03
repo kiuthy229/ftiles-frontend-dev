@@ -1,9 +1,9 @@
 import React, { useLayoutEffect, useState } from "react";
-import axios from "axios";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
-import "./PieChart.css";
 import { requestURL } from "../../common/common";
+import axios from "axios";
+import "./PieChart.style.css";
 
 //doanh thu thuần theo chi nhánh tháng này
 export type AllBranchRevenueData = {
@@ -20,7 +20,7 @@ const PieChart: React.FC = ({}) => {
     AllBranchRevenueData[]
   >([]);
 
-  const [totalRevenueOfDay, setTotalRevenueOfDay] = useState<number>();
+  const [_, setTotalRevenueOfDay] = useState<number>();
 
   const fetchData = async () => {
     return await axios
@@ -81,9 +81,9 @@ const PieChart: React.FC = ({}) => {
     maintainAspectRatio: true,
   };
   return (
-    <div className="piechart">
-      <div className="piechart__label">
-        {"Doanh thu thuần theo chi nhánh tháng này"}
+    <div className="featured">
+      <div className="top">
+        <h1 className="title">Doanh thu thuần theo chi nhánh tháng này</h1>
       </div>
       <Pie data={data} options={options} className="piechart__chart" />
     </div>
