@@ -1,6 +1,13 @@
 import React, { FunctionComponent } from "react";
 import { WidgetTitle } from "../../common/common";
-import "./TopWidget.style.css";
+import {
+  WidgetHeader,
+  WidgetPercentage,
+  WidgetContainer,
+  WidgetSide,
+  WidgetAmount,
+  WidgetLink,
+} from "./TopWidget.style";
 
 interface TopWidgetProps {
   type: WidgetTitle;
@@ -51,17 +58,16 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
   }
 
   return (
-    <div className="widget">
-      <div className="left">
-        <span className="title">{data ? data.title : null}</span>
-        <span className="counter">{amount}</span>
-        <span className="link">{data ? data.link : null}</span>
-      </div>
-      <div className="right">
-        <div className="percentage positive">{diff} %</div>
-        {data ? data.icon : null}
-      </div>
-    </div>
+    <WidgetContainer>
+      <WidgetSide>
+        <WidgetHeader>{data ? data.title : null}</WidgetHeader>
+        <WidgetAmount>{amount}</WidgetAmount>
+        <WidgetLink>{data ? data.link : null}</WidgetLink>
+      </WidgetSide>
+      <WidgetSide>
+        <WidgetPercentage>{diff} %</WidgetPercentage>
+      </WidgetSide>
+    </WidgetContainer>
   );
 };
 

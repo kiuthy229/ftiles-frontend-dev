@@ -8,10 +8,12 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { requestURL } from "../../common/common";
-import "./HorizontalBarChart.style.css";
+import {
+  HorizontalBarChartContainer,
+  StyledHorizontalBarChart,
+} from "./HorizontalBarChart.style";
 
 export type AllTopProductsData = {
   productId: string;
@@ -84,11 +86,7 @@ const HorizontalBarChart: React.FC = () => {
     ],
   };
 
-  return (
-    <div className="barchart">
-      <Bar options={options} data={data} className="barchart__chart" />
-    </div>
-  );
+  return <StyledHorizontalBarChart options={options} data={data} />;
 };
 
 export default HorizontalBarChart;

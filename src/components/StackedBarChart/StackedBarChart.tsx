@@ -11,8 +11,8 @@ import {
 } from "chart.js";
 import { requestURL } from "../../common/common";
 import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
+import { StackedBarChart, StackedBarChartTitle } from "./StackedBarChart.style";
 import axios from "axios";
-import "./GroupedBarChart.style.css";
 
 //doanh thu thuần tháng này
 export interface AllRevenueDetails {
@@ -118,10 +118,10 @@ const BarChart: React.FC = () => {
   };
 
   return (
-    <div className="chart">
-      <div className="title">DOANH THU THUẦN THÁNG NÀY</div>
+    <StackedBarChart>
+      <StackedBarChartTitle>DOANH THU THUẦN THÁNG NÀY</StackedBarChartTitle>
       <Bar data={data} options={options} />
-    </div>
+    </StackedBarChart>
   );
 };
 

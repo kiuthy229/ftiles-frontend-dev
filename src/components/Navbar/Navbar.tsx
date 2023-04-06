@@ -1,40 +1,53 @@
 import React, { FunctionComponent } from "react";
 
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import "./Navbar.style.css";
+import {
+  ButtonItem,
+  ButtonItemText,
+  Item,
+  NavbarContainer,
+  NotificationCounter,
+  RightCornerItems,
+  SearchContainer,
+  SearchInput,
+  StyledDashboardIcon,
+  TabsContainer,
+  TabText,
+  UserAvatar,
+  Wrapper,
+} from "./Navbar.style";
 
 interface NavbarProps {}
 
 const Navbar: FunctionComponent<NavbarProps> = () => {
   return (
-    <div className="navbar">
-      <div className="wrapper">
-        <div className="tab">
-          <DashboardIcon className="icon" />
-          <span>Dashboard</span>
-        </div>
-        <div className="search">
-          <input type="text" placeholder="Search..." />
+    <NavbarContainer>
+      <Wrapper>
+        <TabsContainer>
+          <StyledDashboardIcon />
+          <TabText>Dashboard</TabText>
+        </TabsContainer>
+        <SearchContainer>
+          <SearchInput type="text" placeholder="Search..." />
           <SearchOutlinedIcon />
-        </div>
-        <div className="items">
-          <div className="item button-item">
-            <div>Bán hàng</div>
-          </div>
+        </SearchContainer>
+        <RightCornerItems>
+          <ButtonItem>
+            <ButtonItemText>Bán hàng</ButtonItemText>
+          </ButtonItem>
 
-          <div className="item">
-            <NotificationsNoneOutlinedIcon className="icon" />
-            <div className="counter">1</div>
-          </div>
+          <Item>
+            <NotificationsNoneOutlinedIcon />
+            <NotificationCounter>1</NotificationCounter>
+          </Item>
 
-          <div className="item">
-            <img src="" alt="" className="avatar" />
-          </div>
-        </div>
-      </div>
-    </div>
+          <Item>
+            <UserAvatar src="" alt="" />
+          </Item>
+        </RightCornerItems>
+      </Wrapper>
+    </NavbarContainer>
   );
 };
 

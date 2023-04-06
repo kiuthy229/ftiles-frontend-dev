@@ -1,39 +1,44 @@
 import React from "react";
-import { WidgetTitle } from "../../common/common";
-import BarChart from "../../components/GroupedBarChart/GroupedBarChart";
+import { widgetList, WidgetTitle } from "../../common/common";
+import BarChart from "../../components/StackedBarChart/StackedBarChart";
 import HorizontalBarChart from "../../components/HorizontalBarChart/HorizontalBarChart";
 import Navbar from "../../components/Navbar/Navbar";
 import Notification from "../../components/Notification/NotificationItem";
 import PieChart from "../../components/PieChart/PieChart";
 import SideBar from "../../components/SideBar/SideBar";
 import TopWidget from "../../components/TopWidget/TopWidget";
-import "./Dashboard.style.css";
+import {
+  ActivitiesContainer,
+  BottomContainer,
+  ChartsContainer,
+  Home,
+  HomeContainer,
+  WidgetsContainer,
+} from "./Dashboard.style";
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="home">
+    <Home>
       <SideBar />
-      <div className="homeContainer">
+      <HomeContainer>
         <Navbar />
-        <div className="widgets">
-          <TopWidget type={WidgetTitle.TOTAL_INVOICE} />
-          <TopWidget type={WidgetTitle.TOTAL_REQUEST} />
-          <TopWidget type={WidgetTitle.TODAY_ORDERS} />
-          <TopWidget type={WidgetTitle.RECENT_ACTIVITY} />
-        </div>
-        <div className="charts">
+        <WidgetsContainer>
+          {widgetList.map((widget, id) => (
+            <TopWidget type={widget} key={id} />
+          ))}
+        </WidgetsContainer>
+        <ChartsContainer>
           <BarChart />
           <PieChart />
-        </div>
-        <div className="listContainer">
-          {/* <div className="listTitle"></div> */}
+        </ChartsContainer>
+        <BottomContainer>
           <HorizontalBarChart />
-        </div>
-      </div>
-      <div className="activity">
+        </BottomContainer>
+      </HomeContainer>
+      <ActivitiesContainer>
         <Notification />
-      </div>
-    </div>
+      </ActivitiesContainer>
+    </Home>
   );
 };
 

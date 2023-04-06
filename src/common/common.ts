@@ -6,3 +6,10 @@ export enum WidgetTitle {
   TODAY_ORDERS = "today_orders",
   RECENT_ACTIVITY = "recent_activity",
 }
+
+export const widgetList = [
+  WidgetTitle.TOTAL_INVOICE,
+  WidgetTitle.TOTAL_REQUEST,
+  WidgetTitle.TODAY_ORDERS,
+  WidgetTitle.RECENT_ACTIVITY,
+];

@@ -1,80 +1,90 @@
 import React, { FunctionComponent } from "react";
 
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import StoreIcon from "@mui/icons-material/Store";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
+import {
+  BranchHeader,
+  BranchHeaderText,
+  CenterContainer,
+  CenterItem,
+  CenterItemList,
+  ItemText,
+  Logo,
+  LogoContainer,
+  LogoImage,
+  SideBarContainer,
+  StyledAccountCircleOutlinedIcon,
+  StyledExitToAppIcon,
+  StyledLocalShippingIcon,
+  StyledSettingsApplicationsIcon,
+  StyledStoreIcon,
+} from "./SideBar.style";
 import logo from "../../assets/logo.png";
-import "./SideBar.style.css";
 
 interface SideBarProps {}
 
 const SideBar: FunctionComponent<SideBarProps> = () => {
   return (
-    <div className="sidebar">
-      <div className="top">
+    <SideBarContainer>
+      <LogoContainer>
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">
-            <img src={logo} alt="logo" />
-          </span>
+          <Logo>
+            <LogoImage src={logo} alt="logo" />
+          </Logo>
         </Link>
-      </div>
+      </LogoContainer>
 
       <br />
 
-      <div className="center">
-        <ul>
-          <p className="title">
-            <StoreIcon className="icon" />
-            <span>CHI NHÁNH</span>
-          </p>
+      <CenterContainer>
+        <CenterItemList>
+          <BranchHeader>
+            <StyledStoreIcon />
+            <BranchHeaderText>CHI NHÁNH</BranchHeaderText>
+          </BranchHeader>
 
-          <li>
-            <span>Chi nhánh 1</span>
-          </li>
-          <li>
-            <span>Chi nhánh 2</span>
-          </li>
-          <li>
-            <span>Chi nhánh 3</span>
-          </li>
-          <li>
-            <span>Chi nhánh 4</span>
-          </li>
-          <li>
-            <span>Chi nhánh 5</span>
-          </li>
-          <li>
-            <span>Chi nhánh 6</span>
-          </li>
-
-          <br />
-
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>3. Kho tổng Miền Nam</span>
-          </li>
+          <CenterItem>
+            <ItemText>Chi nhánh 1</ItemText>
+          </CenterItem>
+          <CenterItem>
+            <ItemText>Chi nhánh 2</ItemText>
+          </CenterItem>
+          <CenterItem>
+            <ItemText>Chi nhánh 3</ItemText>
+          </CenterItem>
+          <CenterItem>
+            <ItemText>Chi nhánh 4</ItemText>
+          </CenterItem>
+          <CenterItem>
+            <ItemText>Chi nhánh 5</ItemText>
+          </CenterItem>
+          <CenterItem>
+            <ItemText>Chi nhánh 6</ItemText>
+          </CenterItem>
 
           <br />
 
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
-          </li>
-          <li>
-            <ExitToAppIcon className="icon" />
-            <span>Logout</span>
-          </li>
-        </ul>
-      </div>
-      <div className="bottom"></div>
-    </div>
+          <CenterItem>
+            <StyledLocalShippingIcon />
+            <ItemText>3. Kho tổng Miền Nam</ItemText>
+          </CenterItem>
+
+          <br />
+
+          <CenterItem>
+            <StyledSettingsApplicationsIcon />
+            <ItemText>Settings</ItemText>
+          </CenterItem>
+          <CenterItem>
+            <StyledAccountCircleOutlinedIcon />
+            <ItemText>Profile</ItemText>
+          </CenterItem>
+          <CenterItem>
+            <StyledExitToAppIcon />
+            <ItemText>Logout</ItemText>
+          </CenterItem>
+        </CenterItemList>
+      </CenterContainer>
+    </SideBarContainer>
   );
 };
 

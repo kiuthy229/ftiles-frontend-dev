@@ -1,11 +1,40 @@
 import React, { useState, useEffect } from "react";
 import Pusher from "pusher-js";
-import "./Notification.style.css";
+import {
+  ActivityContainer,
+  ActivityContent,
+  ActivityHeaderContainer,
+  ActivityImage,
+  ActivityItem,
+  MessageBoldText,
+  MessageText,
+  MessageTime,
+} from "./Notification.style";
 
 export type NotificationProps = {};
 
+export type messageValues = {
+  subject: string;
+  conjunction1: string;
+  event: string;
+  conjunction2: string;
+  withValue: string;
+  atTime: string;
+};
+
 const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
-  const [messages, setMessages] = useState<string[]>([]);
+  const initialValue: messageValues = {
+    subject: "L",
+    conjunction1: "Đã",
+    event: "bán hàng trắng",
+    conjunction2: "với",
+    withValue: "99999",
+    atTime: "29/03/2023",
+  };
+  const [messages, setMessages] = useState<messageValues[]>([
+    initialValue,
+    initialValue,
+  ]);
 
   useEffect(() => {
     //Set up Pusher client
@@ -15,10 +44,17 @@ const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
 
     // Subscribe to "my-channel" channel and "new_message" event
     const channel = pusher.subscribe("patecan_channel");
-    channel.bind("new_activity", (data: any) => {
+    channel.bind("new_activity", (data: messageValues) => {
       console.log(data);
       const activity = data;
-      const message = `${activity.subject} ${activity.conjunction1} ${activity.event} ${activity.conjunction2} ${activity.withValue} ${activity.atTime}`;
+      const message: messageValues = {
+        subject: activity.subject,
+        conjunction1: activity.conjunction1,
+        event: activity.event,
+        conjunction2: activity.conjunction2,
+        withValue: activity.withValue,
+        atTime: activity.atTime,
+      };
       // Add new message to messages state
       setMessages([...messages, message]);
     });
@@ -33,12 +69,39 @@ const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
 
   return (
     <div className="notification">
-      <div className="top">Thông báo</div>
-      <ul>
-        {messages.map((message, index) => (
-          <li key={index}>{message}</li>
-        ))}
-      </ul>
+      <ActivityHeaderContainer>Thông báo</ActivityHeaderContainer>
+      <ActivityContainer>
+        {messages.map(
+          (
+            { subject, conjunction1, event, conjunction2, withValue, atTime },
+            index
+          ) => (
+            <ActivityItem key={index}>
+              <div>
+                <ActivityImage src="" className="user__img" />
+              </div>
+              <div>
+                <ActivityContent className="notification__item">
+                  <MessageBoldText className="bold_text">
+                    {subject}
+                  </MessageBoldText>
+                  <MessageText>{conjunction1}</MessageText>
+                  <MessageBoldText className="bold_text">
+                    {event}
+                  </MessageBoldText>
+                  <MessageText>{conjunction2} giá</MessageText>
+                  <MessageBoldText className="bold_text">
+                    {withValue}
+                  </MessageBoldText>
+                </ActivityContent>
+                <MessageTime className="notification__time">
+                  {atTime}
+                </MessageTime>
+              </div>
+            </ActivityItem>
+          )
+        )}
+      </ActivityContainer>
     </div>
   );
 };

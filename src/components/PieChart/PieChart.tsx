@@ -2,8 +2,12 @@ import React, { useLayoutEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
 import { requestURL } from "../../common/common";
+import {
+  PieChartContainer,
+  PieChartTitle,
+  PieChartTitleContainer,
+} from "./PieChart.style";
 import axios from "axios";
-import "./PieChart.style.css";
 
 //doanh thu thuần theo chi nhánh tháng này
 export type AllBranchRevenueData = {
@@ -81,12 +85,14 @@ const PieChart: React.FC = ({}) => {
     maintainAspectRatio: true,
   };
   return (
-    <div className="featured">
-      <div className="top">
-        <h1 className="title">Doanh thu thuần theo chi nhánh tháng này</h1>
-      </div>
-      <Pie data={data} options={options} className="piechart__chart" />
-    </div>
+    <PieChartContainer>
+      <PieChartTitleContainer>
+        <PieChartTitle>
+          DOANH THU THUẦN THEO CHI NHÁNH THÁNG NÀY
+        </PieChartTitle>
+      </PieChartTitleContainer>
+      <Pie data={data} options={options} />
+    </PieChartContainer>
   );
 };
 
