@@ -101,7 +101,7 @@ const StackedBarChart: React.FC = () => {
 
   useLayoutEffect(() => {
     fetchData();
-  }, [option, branchData]);
+  }, [option, branch]);
 
   useEffect(() => {
     setRevenueByTimeUnitData({});

@@ -49,7 +49,7 @@ const PieChart: React.FC = ({}) => {
 
   useLayoutEffect(() => {
     fetchData();
-  }, [branchData]);
+  }, [branch]);
 
   useEffect(() => {
     setBranchRevenueData([]);
