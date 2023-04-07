@@ -10,6 +10,7 @@ import {
   MessageText,
   MessageTime,
 } from "./Notification.style";
+import { generateImage } from "../../utils/imagesGenerator";
 
 export type NotificationProps = {};
 
@@ -67,25 +68,17 @@ const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
           ) => (
             <ActivityItem key={index}>
               <div>
-                <ActivityImage src="" className="user__img" />
+                <ActivityImage src={generateImage()} />
               </div>
               <div>
-                <ActivityContent className="notification__item">
-                  <MessageBoldText className="bold_text">
-                    {subject}
-                  </MessageBoldText>
+                <ActivityContent>
+                  <MessageBoldText>{subject}</MessageBoldText>
                   <MessageText>{conjunction1}</MessageText>
-                  <MessageBoldText className="bold_text">
-                    {event}
-                  </MessageBoldText>
+                  <MessageBoldText>{event}</MessageBoldText>
                   <MessageText>{conjunction2} giá</MessageText>
-                  <MessageBoldText className="bold_text">
-                    {withValue}
-                  </MessageBoldText>
+                  <MessageBoldText>{withValue}</MessageBoldText>
                 </ActivityContent>
-                <MessageTime className="notification__time">
-                  {atTime}
-                </MessageTime>
+                <MessageTime>{atTime}</MessageTime>
               </div>
             </ActivityItem>
           )

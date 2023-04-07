@@ -21,13 +21,11 @@ import {
 interface NavbarProps {}
 
 const Navbar: FunctionComponent<NavbarProps> = () => {
-
   const [yaxis, setYaxis] = useState(NavbarContainer.scrollY);
   const [activateNav, setActivateNav] = useState(true);
 
   useEffect(() => {
     window.addEventListener("scroll", () => setYaxis(NavbarContainer.scrollY));
-    console.log(yaxis);
     if (yaxis > 200) {
       setActivateNav(true);
     }

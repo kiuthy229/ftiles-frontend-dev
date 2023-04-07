@@ -1,11 +1,11 @@
 import React from "react";
-import { widgetList, WidgetTitle } from "../../common/common";
-import BarChart from "../../components/StackedBarChart/StackedBarChart";
+import { widgetList } from "../../common/common";
 import HorizontalBarChart from "../../components/HorizontalBarChart/HorizontalBarChart";
 import Navbar from "../../components/Navbar/Navbar";
 import Notification from "../../components/Notification/NotificationItem";
 import PieChart from "../../components/PieChart/PieChart";
 import SideBar from "../../components/SideBar/SideBar";
+import StackedBarChart from "../../components/StackedBarChart/StackedBarChart";
 import TopWidget from "../../components/TopWidget/TopWidget";
 import {
   ActivitiesContainer,
@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
           ))}
         </WidgetsContainer>
         <ChartsContainer>
-          <BarChart />
+          <StackedBarChart />
           <PieChart />
         </ChartsContainer>
         <BottomContainer>

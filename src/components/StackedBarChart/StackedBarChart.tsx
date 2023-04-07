@@ -16,13 +16,13 @@ import {
 } from "../../common/common";
 import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
 import {
-  StackedBarChart,
+  StackedBarChartContainer,
   StackedBarChartHeader,
   StackedBarChartTitle,
   StyledSelect,
 } from "./StackedBarChart.style";
-import { map } from "../../utils/sortWeekDays";
 import axios from "axios";
+import { date, hour, weekDays } from "../../utils/timeRangeLabelsData";
 
 //doanh thu thuần tháng này
 export interface AllRevenueDetails {
@@ -34,11 +34,17 @@ export interface AllRevenueDetails {
 }
 export type AllRevenueStates = Record<string, AllRevenueDetails[]>;
 
-export const options = {
-  skipNull: false,
+const options = {
+  maintainAspectRatio: false,
+  skipNull: true,
   plugins: {
     title: {
-      display: false,
+      display: true,
+    },
+    legend: {
+      display: true,
+      position: "bottom" as "bottom",
+      align: "start" as "start",
     },
   },
   responsive: true,
@@ -52,11 +58,12 @@ export const options = {
     },
     y: {
       stacked: true,
+      max: 16000000000,
     },
   },
 };
 
-const BarChart: React.FC = () => {
+const StackedBarChart: React.FC = () => {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -66,39 +73,47 @@ const BarChart: React.FC = () => {
     Legend
   );
   const [selectedOption, setSelectedOption] = useState(
-    stackedBarChartFilterOptions[2]
+    stackedBarChartFilterOptions[0]
   );
-  const [revenueByDayData, setRevenueByDayData] = useState<AllRevenueStates>(
-    {}
-  );
+  const [_, setRevenueData] = useState<AllRevenueStates>({});
   const [rotateData, setRotateData] = useState<any>({});
-  const [_, setOption] = useState<string>("weekday");
+  const [option, setOption] = useState<string>(
+    stackedBarChartFilterOptions[0].value
+  );
 
   const fetchData = async () => {
     return await axios
       .get(
-        `${requestURL}ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&timeUnit=weekday`,
+        `${requestURL}ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&timeUnit=${option}`,
         { data: { method: "HEAD", mode: "no-cors" } }
       )
       .then((data: any) => {
-        setRevenueByDayData(data.data.data);
-        setRotateData(rotateDataForStackedBar(data.data, "weekday"));
+        setRevenueData(data.data.data);
+        setRotateData(rotateDataForStackedBar(data.data, option));
       });
   };
 
   useLayoutEffect(() => {
     fetchData();
-  }, []);
+  }, [option]);
+
+  useEffect(() => {
+    console.log(_);
+    console.log(rotateData);
+  }, [rotateData]);
 
   const handleChangeFilterOption = (e: any) => {
     setSelectedOption(e);
     setOption(e.value);
+    setRevenueData({});
   };
 
-  let labels = Object.keys(revenueByDayData).sort(
-    (a: any, b: any) => map[a] - map[b]
-  );
-
+  let labels =
+    option === stackedBarChartFilterOptions[0].value
+      ? weekDays
+      : option === stackedBarChartFilterOptions[1].value
+      ? date
+      : hour;
   const data = {
     labels,
     datasets: [
@@ -124,14 +139,19 @@ const BarChart: React.FC = () => {
       },
       {
         label: Object.keys(rotateData)[4],
-        backgroundColor: "rgba(255, 206, 86, 0.5)",
+        backgroundColor: "rgba(75, 192, 192, 0.5)",
         data: Object.values(rotateData)[4],
+      },
+      {
+        label: Object.keys(rotateData)[5],
+        backgroundColor: "rgba(255, 206, 86, 0.5)",
+        data: Object.values(rotateData)[5],
       },
     ],
   };
 
   return (
-    <StackedBarChart>
+    <StackedBarChartContainer>
       <StackedBarChartHeader>
         <StackedBarChartTitle>{stackedBarChartTitle}</StackedBarChartTitle>
 
@@ -142,9 +162,9 @@ const BarChart: React.FC = () => {
         />
       </StackedBarChartHeader>
 
-      <Bar data={data} options={options} />
-    </StackedBarChart>
+      <Bar data={data} options={options} style={{ maxHeight: 450 }} />
+    </StackedBarChartContainer>
   );
 };
 
-export default BarChart;
+export default StackedBarChart;

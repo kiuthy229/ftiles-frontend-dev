@@ -77,7 +77,11 @@ const PieChart: React.FC = ({}) => {
       position: "outside",
     },
     plugins: {
-      legend: { display: false },
+      legend: {
+        display: true,
+        position: "bottom" as "bottom",
+        align: "end" as "end",
+      },
       outlabels: {
         text: "%l %p",
         color: "black",
@@ -96,7 +100,11 @@ const PieChart: React.FC = ({}) => {
       <PieChartTitleContainer>
         <PieChartTitle>DOANH THU THUẦN THEO CHI NHÁNH THÁNG NÀY</PieChartTitle>
       </PieChartTitleContainer>
-      <Pie data={data} options={options} />
+      <Pie
+        data={data}
+        options={options}
+        style={{ width: 320, maxHeight: 320 }}
+      />
     </PieChartContainer>
   );
 };

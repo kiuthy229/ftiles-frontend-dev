@@ -1,4 +1,4 @@
-export const requestURL = "https://ftiles-dev.vercel.app/";
+export const requestURL = "https://ftiles-backend-dev.ftiles.tech/";
 
 export enum WidgetTitle {
   TOTAL_INVOICE = "total_invoice",
@@ -19,9 +19,9 @@ export const stackedBarChartTitle = "DOANH THU THUẦN THÁNG NÀY";
 export const horizontalBarChartTitle = "TOP 10 HÀNG HÓA BÁN CHẠY THÁNG NÀY";
 
 export const stackedBarChartFilterOptions = [
+  { value: "weekday", label: "Theo thứ" },
   { value: "date", label: "Theo ngày" },
   { value: "hour", label: "Theo giờ" },
-  { value: "weekday", label: "Theo thứ" },
 ];
 
 export const horizontalBarChartFilterOptions = [

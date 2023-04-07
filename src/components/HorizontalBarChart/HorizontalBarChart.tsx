@@ -21,6 +21,7 @@ import {
   StyledHorizontalBarChart,
 } from "./HorizontalBarChart.style";
 import { StyledSelect } from "../StackedBarChart/StackedBarChart.style";
+import { wrapLabelAxis } from "../../utils/wrapLabelAxis";
 
 export type AllTopProductsData = {
   productId: string;
@@ -49,7 +50,7 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "left" as const,
+      position: "right" as const,
       display: false,
     },
     title: {
@@ -62,7 +63,9 @@ const HorizontalBarChart: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState(
     horizontalBarChartFilterOptions[0]
   );
-  const [option, setOption] = useState<string>(horizontalBarChartFilterOptions[0].value);
+  const [option, setOption] = useState<string>(
+    horizontalBarChartFilterOptions[0].value
+  );
   const [topProductsData, setTopProductsData] = useState<AllTopProductsData[]>(
     []
   );
@@ -74,7 +77,6 @@ const HorizontalBarChart: React.FC = () => {
         { data: { method: "HEAD", mode: "no-cors" } }
       )
       .then((data: any) => {
-        console.log(data.data.data)
         setTopProductsData(data.data.data);
       });
   };
@@ -86,10 +88,12 @@ const HorizontalBarChart: React.FC = () => {
   const handleChangeFilterOption = (e: any) => {
     setSelectedOption(e);
     setOption(e.value);
-    setTopProductsData([])
+    setTopProductsData([]);
   };
 
-  const labels = topProductsData.map((product) => product.productName);
+  const labels = topProductsData.map((product) =>
+    wrapLabelAxis(product.productName, 20)
+  );
 
   const data = {
     labels,

@@ -94,8 +94,8 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
           </BranchHeader>
 
           {allBranches
-            ? allBranches.map((branch) => (
-                <CenterItem>
+            ? allBranches.map((branch, id) => (
+                <CenterItem key={id}>
                   <ItemText>{branch.branchName}</ItemText>
                 </CenterItem>
               ))

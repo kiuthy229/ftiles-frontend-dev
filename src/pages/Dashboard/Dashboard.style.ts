@@ -24,9 +24,8 @@ export const WidgetsContainer = styled.div`
 `;
 export const ChartsContainer = styled.div`
   display: flex;
-  padding: 20px;
-  gap: 20px;
-  padding: 5px 20px;
+  gap: 10px;
+  padding: 10px;
 `;
 export const BottomContainer = styled.div`
   -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
