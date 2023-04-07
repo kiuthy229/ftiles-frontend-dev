@@ -106,6 +106,7 @@ export const NotificationCounter = styled.div`
   position: absolute;
   top: -5px;
   right: -5px;
+  display: none;
 `;
 
 export const UserAvatar = styled.img`

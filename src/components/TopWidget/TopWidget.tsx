@@ -62,7 +62,7 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
       data = {
         title: "0 phiếu",
         amount: 0,
-        link: "View all orders",
+        link: "Xem tất cả phiếu",
         icon: null,
       };
       break;
@@ -70,7 +70,7 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
       data = {
         title: "Số đơn hôm nay",
         amount: 0,
-        link: "View net earnings",
+        link: "Xem tất cả đơn",
         icon: null,
       };
       break;
@@ -78,7 +78,7 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
       data = {
         title: "Hoạt động gần đây",
         amount: 0,
-        link: "See details",
+        link: "Xem chi tiết",
         icon: null,
       };
       break;
