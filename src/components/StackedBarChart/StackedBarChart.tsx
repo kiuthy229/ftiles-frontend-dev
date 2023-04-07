@@ -1,4 +1,7 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+
+import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
+import { date, hour, weekDays } from "../../utils/timeRangeLabelsData";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,11 +13,11 @@ import {
   Title,
 } from "chart.js";
 import {
+  initialBranchesList,
   requestURL,
   stackedBarChartFilterOptions,
   stackedBarChartTitle,
 } from "../../common/common";
-import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
 import {
   StackedBarChartContainer,
   StackedBarChartHeader,
@@ -22,7 +25,7 @@ import {
   StyledSelect,
 } from "./StackedBarChart.style";
 import axios from "axios";
-import { date, hour, weekDays } from "../../utils/timeRangeLabelsData";
+import { MyContext } from "../Theme";
 
 //doanh thu thuần tháng này
 export interface AllRevenueDetails {
@@ -75,37 +78,40 @@ const StackedBarChart: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState(
     stackedBarChartFilterOptions[0]
   );
-  const [_, setRevenueData] = useState<AllRevenueStates>({});
+  const [_, setRevenueByTimeUnitData] = useState<AllRevenueStates>({});
   const [rotateData, setRotateData] = useState<any>({});
   const [option, setOption] = useState<string>(
     stackedBarChartFilterOptions[0].value
   );
 
+  const { branchData } = useContext<any>(MyContext);
+  const [branch, setBranch] = useState<number[]>(initialBranchesList);
+
   const fetchData = async () => {
     return await axios
       .get(
-        `${requestURL}ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&timeUnit=${option}`,
+        `${requestURL}ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&timeUnit=${option}&branchIds=${branch}`,
         { data: { method: "HEAD", mode: "no-cors" } }
       )
       .then((data: any) => {
-        setRevenueData(data.data.data);
+        setRevenueByTimeUnitData(data.data.data);
         setRotateData(rotateDataForStackedBar(data.data, option));
       });
   };
 
   useLayoutEffect(() => {
     fetchData();
-  }, [option]);
+  }, [option, branchData]);
 
   useEffect(() => {
-    console.log(_);
-    console.log(rotateData);
-  }, [rotateData]);
+    setRevenueByTimeUnitData({});
+    setBranch(branchData);
+  }, [branchData]);
 
   const handleChangeFilterOption = (e: any) => {
     setSelectedOption(e);
     setOption(e.value);
-    setRevenueData({});
+    setRevenueByTimeUnitData({});
   };
 
   let labels =

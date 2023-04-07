@@ -6,6 +6,7 @@ import Notification from "../../components/Notification/NotificationItem";
 import PieChart from "../../components/PieChart/PieChart";
 import SideBar from "../../components/SideBar/SideBar";
 import StackedBarChart from "../../components/StackedBarChart/StackedBarChart";
+import ThemeProvider from "../../components/Theme";
 import TopWidget from "../../components/TopWidget/TopWidget";
 import {
   ActivitiesContainer,
@@ -18,27 +19,29 @@ import {
 
 const Dashboard: React.FC = () => {
   return (
-    <Home>
-      <SideBar />
-      <HomeContainer>
-        <Navbar />
-        <WidgetsContainer>
-          {widgetList.map((widget, id) => (
-            <TopWidget type={widget} key={id} />
-          ))}
-        </WidgetsContainer>
-        <ChartsContainer>
-          <StackedBarChart />
-          <PieChart />
-        </ChartsContainer>
-        <BottomContainer>
-          <HorizontalBarChart />
-        </BottomContainer>
-      </HomeContainer>
-      <ActivitiesContainer>
-        <Notification />
-      </ActivitiesContainer>
-    </Home>
+    <ThemeProvider>
+      <Home>
+        <SideBar />
+        <HomeContainer>
+          <Navbar />
+          <WidgetsContainer>
+            {widgetList.map((widget, id) => (
+              <TopWidget type={widget} key={id} />
+            ))}
+          </WidgetsContainer>
+          <ChartsContainer>
+            <StackedBarChart />
+            <PieChart />
+          </ChartsContainer>
+          <BottomContainer>
+            <HorizontalBarChart />
+          </BottomContainer>
+        </HomeContainer>
+        <ActivitiesContainer>
+          <Notification />
+        </ActivitiesContainer>
+      </Home>
+    </ThemeProvider>
   );
 };
 

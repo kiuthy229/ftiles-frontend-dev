@@ -28,3 +28,39 @@ export const horizontalBarChartFilterOptions = [
   { value: "revenue", label: "Theo revenue" },
   { value: "quantity", label: "Theo quantity" },
 ];
+
+export const initialBranchesList = [
+  1000000145,
+  1000000114,
+  1000000158,
+  1261039,
+  1000000115,
+  1000000131,
+];
+
+export const initialBranchesValue = [
+  {
+    id: 1000000146,
+    branchName: "1. Kho Nhà Máy",
+  },
+  {
+    id: 1000000145,
+    branchName: "2. Kho Ngoại Quan",
+  },
+  {
+    id: 1000000114,
+    branchName: "3. Kho Tổng Miền Nam",
+  },
+  {
+    id: 1000000204,
+    branchName: "4. Kho Củ Chi",
+  },
+  {
+    id: 1000000158,
+    branchName: "Chi nhánh thuế",
+  },
+  {
+    id: 1000000202,
+    branchName: "Dev Test",
+  },
+];

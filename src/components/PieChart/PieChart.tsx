@@ -1,13 +1,14 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
-import { requestURL } from "../../common/common";
+import { initialBranchesList, requestURL } from "../../common/common";
 import {
   PieChartContainer,
   PieChartTitle,
   PieChartTitleContainer,
 } from "./PieChart.style";
 import axios from "axios";
+import { MyContext } from "../Theme";
 
 //doanh thu thuần theo chi nhánh tháng này
 export type AllBranchRevenueData = {
@@ -30,13 +31,14 @@ const PieChart: React.FC = ({}) => {
   const [branchRevenueData, setBranchRevenueData] = useState<
     AllBranchRevenueData[]
   >([initialValue]);
-
   const [_, setTotalRevenueOfDay] = useState<number>();
+  const { branchData } = useContext<any>(MyContext);
+  const [branch, setBranch] = useState<number[]>(initialBranchesList);
 
   const fetchData = async () => {
     return await axios
       .get(
-        `${requestURL}ftiles/dashboard/revenue/allBranchRevenue?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000`,
+        `${requestURL}ftiles/dashboard/revenue/allBranchRevenue?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&branchIds=${branch}`,
         { data: { method: "HEAD", mode: "no-cors" } }
       )
       .then((data: any) => {
@@ -47,7 +49,12 @@ const PieChart: React.FC = ({}) => {
 
   useLayoutEffect(() => {
     fetchData();
-  }, []);
+  }, [branchData]);
+
+  useEffect(() => {
+    setBranchRevenueData([]);
+    setBranch(branchData);
+  }, [branchData]);
 
   const data = {
     labels: branchRevenueData.map((branch) => branch.branchName),

@@ -1,7 +1,18 @@
 import axios from "axios";
-import React, { FunctionComponent, useLayoutEffect, useState } from "react";
-import { requestURL, WidgetTitle } from "../../common/common";
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
+import {
+  initialBranchesList,
+  requestURL,
+  WidgetTitle,
+} from "../../common/common";
 import { numberWithCommas } from "../../utils/format/format";
+import { MyContext } from "../Theme";
 import {
   WidgetHeader,
   WidgetPercentage,
@@ -19,8 +30,10 @@ interface TopWidgetProps {
 const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
   let data;
 
-  const [invoiceData, setInvoiceData] = useState();
-  const [revenueData, setRevenueData] = useState();
+  const [invoiceData, setInvoiceData] = useState<number>();
+  const [revenueData, setRevenueData] = useState<number>();
+  const { branchData } = useContext<any>(MyContext);
+  const [branch, setBranch] = useState<number[]>(initialBranchesList);
 
   const fetchRevenueData = async () => {
     return await axios
@@ -36,7 +49,7 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
   const fetchInvoiceData = async () => {
     return await axios
       .get(
-        `${requestURL}ftiles/dashboard/invoice/allInvoice?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000`,
+        `${requestURL}ftiles/dashboard/invoice/allInvoice?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&branchIds=${branch}`,
         { data: { method: "HEAD", mode: "no-cors" } }
       )
       .then((data: any) => {
@@ -47,7 +60,12 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
   useLayoutEffect(() => {
     fetchRevenueData();
     fetchInvoiceData();
-  }, []);
+  }, [branch]);
+
+  useEffect(() => {
+    setInvoiceData(0);
+    setBranch(branchData);
+  }, [branchData]);
 
   switch (type) {
     case WidgetTitle.TOTAL_INVOICE:

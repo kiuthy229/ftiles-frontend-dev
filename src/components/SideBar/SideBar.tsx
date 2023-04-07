@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useLayoutEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useContext,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 import { Link } from "react-router-dom";
 import {
@@ -18,9 +23,10 @@ import {
   StyledSettingsApplicationsIcon,
   StyledStoreIcon,
 } from "./SideBar.style";
-import { requestURL } from "../../common/common";
+import { initialBranchesValue, requestURL } from "../../common/common";
 import logo from "../../assets/logo.png";
-import axios, { all } from "axios";
+import axios from "axios";
+import { MyContext } from "../Theme";
 
 interface SideBarProps {}
 
@@ -29,36 +35,11 @@ export type allBranchesData = {
   branchName: string;
 };
 
-let initialValue = [
-  {
-    id: 1000000146,
-    branchName: "1. Kho Nhà Máy",
-  },
-  {
-    id: 1000000145,
-    branchName: "2. Kho Ngoại Quan",
-  },
-  {
-    id: 1000000114,
-    branchName: "3. Kho Tổng Miền Nam",
-  },
-  {
-    id: 1000000204,
-    branchName: "4. Kho Củ Chi",
-  },
-  {
-    id: 1000000158,
-    branchName: "Chi nhánh thuế",
-  },
-  {
-    id: 1000000202,
-    branchName: "Dev Test",
-  },
-];
 const SideBar: FunctionComponent<SideBarProps> = () => {
   const [allBranches, setAllBranches] = useState<allBranchesData[]>(
-    initialValue
+    initialBranchesValue
   );
+  const { actions } = useContext<any>(MyContext);
 
   const fetchData = async () => {
     return await axios
@@ -95,7 +76,10 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
 
           {allBranches
             ? allBranches.map((branch, id) => (
-                <CenterItem key={id}>
+                <CenterItem
+                  key={id}
+                  onClick={() => actions.chooseBranch(branch.id)}
+                >
                   <ItemText>{branch.branchName}</ItemText>
                 </CenterItem>
               ))
