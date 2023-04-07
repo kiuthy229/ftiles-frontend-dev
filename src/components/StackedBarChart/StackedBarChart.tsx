@@ -92,7 +92,6 @@ const BarChart: React.FC = () => {
 
   const handleChangeFilterOption = (e: any) => {
     setSelectedOption(e);
-    console.log(e.value);
     setOption(e.value);
   };
 

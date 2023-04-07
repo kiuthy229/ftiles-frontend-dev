@@ -86,7 +86,7 @@ const HorizontalBarChart: React.FC = () => {
   const handleChangeFilterOption = (e: any) => {
     setSelectedOption(e);
     setOption(e.value);
-    console.log(option)
+    setTopProductsData([])
   };
 
   const labels = topProductsData.map((product) => product.productName);
