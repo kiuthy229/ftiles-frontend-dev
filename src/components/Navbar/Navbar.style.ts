@@ -4,11 +4,23 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 
 export const NavbarContainer = styled.div`
   height: 50px;
+  width: 71%;
   border-bottom: 0.5px solid rgb(231, 228, 228);
   display: flex;
   align-items: center;
   font-size: 14px;
   color: #555;
+  position: fixed;
+  background-color: #ffffff;
+
+  @keyframes scroll {
+    from {
+      margin-top: -90px;
+    }
+    to {
+      margin-top: 0;
+    }
+  }
 `;
 
 export const Wrapper = styled.div`

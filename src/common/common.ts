@@ -13,3 +13,18 @@ export const widgetList = [
   WidgetTitle.TODAY_ORDERS,
   WidgetTitle.RECENT_ACTIVITY,
 ];
+
+export const stackedBarChartTitle = "DOANH THU THUẦN THÁNG NÀY";
+
+export const horizontalBarChartTitle = "TOP 10 HÀNG HÓA BÁN CHẠY THÁNG NÀY";
+
+export const stackedBarChartFilterOptions = [
+  { value: "date", label: "Theo ngày" },
+  { value: "hour", label: "Theo giờ" },
+  { value: "weekday", label: "Theo thứ" },
+];
+
+export const horizontalBarChartFilterOptions = [
+  { value: "revenue", label: "Theo revenue" },
+  { value: "quantity", label: "Theo quantity" },
+];

@@ -17,12 +17,19 @@ export type AllBranchRevenueData = {
   revenueByPercent: number;
 };
 
+let initialValue: AllBranchRevenueData = {
+  branchId: "null",
+  branchName: "null",
+  revenue: 1100,
+  revenueByPercent: 0,
+};
+
 const PieChart: React.FC = ({}) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [branchRevenueData, setBranchRevenueData] = useState<
     AllBranchRevenueData[]
-  >([]);
+  >([initialValue]);
 
   const [_, setTotalRevenueOfDay] = useState<number>();
 
@@ -87,9 +94,7 @@ const PieChart: React.FC = ({}) => {
   return (
     <PieChartContainer>
       <PieChartTitleContainer>
-        <PieChartTitle>
-          DOANH THU THUẦN THEO CHI NHÁNH THÁNG NÀY
-        </PieChartTitle>
+        <PieChartTitle>DOANH THU THUẦN THEO CHI NHÁNH THÁNG NÀY</PieChartTitle>
       </PieChartTitleContainer>
       <Pie data={data} options={options} />
     </PieChartContainer>

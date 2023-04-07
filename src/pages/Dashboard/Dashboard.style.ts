@@ -5,8 +5,19 @@ export const Home = styled.div`
 `;
 export const HomeContainer = styled.div`
   flex: 6;
+  height: auto;
+  max-height: 100vh;
+  overflow: auto;
+  overscroll-behavior: auto none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  width: 70%;
 `;
 export const WidgetsContainer = styled.div`
+  margin: 10vh 0 0 0;
   display: flex;
   padding: 20px;
   gap: 20px;
@@ -31,8 +42,16 @@ export const BottomTitle = styled.div`
 export const ActivitiesContainer = styled.div`
   flex: end;
   border-left: 0.5px solid rgb(230, 227, 227);
-  min-width: 25vh;
-  max-width: 33vh;
+  width: 17%;
   min-height: 100vh;
   background-color: white;
+  height: auto;
+  max-height: 100vh;
+  overflow: auto;
+  overscroll-behavior: auto none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;

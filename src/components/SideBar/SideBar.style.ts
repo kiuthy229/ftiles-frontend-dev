@@ -8,8 +8,16 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 export const SideBarContainer = styled.div`
   flex: 1;
   border-right: 0.5px solid rgb(230, 227, 227);
-  min-height: 100vh;
+  max-height: 100vh;
+  width: 13%;
   background-color: white;
+  overflow: auto;
+  overscroll-behavior: auto none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export const LogoContainer = styled.div`

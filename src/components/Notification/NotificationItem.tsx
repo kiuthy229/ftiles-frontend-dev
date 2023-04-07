@@ -23,18 +23,7 @@ export type messageValues = {
 };
 
 const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
-  const initialValue: messageValues = {
-    subject: "L",
-    conjunction1: "Đã",
-    event: "bán hàng trắng",
-    conjunction2: "với",
-    withValue: "99999",
-    atTime: "29/03/2023",
-  };
-  const [messages, setMessages] = useState<messageValues[]>([
-    initialValue,
-    initialValue,
-  ]);
+  const [messages, setMessages] = useState<messageValues[]>([]);
 
   useEffect(() => {
     //Set up Pusher client

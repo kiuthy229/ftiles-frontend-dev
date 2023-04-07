@@ -9,11 +9,18 @@ import {
   Legend,
 } from "chart.js";
 import axios from "axios";
-import { requestURL } from "../../common/common";
+import {
+  horizontalBarChartFilterOptions,
+  horizontalBarChartTitle,
+  requestURL,
+} from "../../common/common";
 import {
   HorizontalBarChartContainer,
+  HorizontalBarChartHeader,
+  HorizontalBarChartTitle,
   StyledHorizontalBarChart,
 } from "./HorizontalBarChart.style";
+import { StyledSelect } from "../StackedBarChart/StackedBarChart.style";
 
 export type AllTopProductsData = {
   productId: string;
@@ -46,13 +53,16 @@ export const options = {
       display: false,
     },
     title: {
-      display: true,
-      text: "TOP 10 HÀNG HÓA BÁN CHẠY THÁNG NÀY",
+      display: false,
     },
   },
 };
 
 const HorizontalBarChart: React.FC = () => {
+  const [selectedOption, setSelectedOption] = useState(
+    horizontalBarChartFilterOptions[0]
+  );
+  const [option, setOption] = useState<string>(horizontalBarChartFilterOptions[0].value);
   const [topProductsData, setTopProductsData] = useState<AllTopProductsData[]>(
     []
   );
@@ -60,17 +70,24 @@ const HorizontalBarChart: React.FC = () => {
   const fetchData = async () => {
     return await axios
       .get(
-        `${requestURL}ftiles/dashboard/product/allTopProduct?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&by=revenue`,
+        `${requestURL}ftiles/dashboard/product/allTopProduct?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&by=${option}`,
         { data: { method: "HEAD", mode: "no-cors" } }
       )
       .then((data: any) => {
+        console.log(data.data.data)
         setTopProductsData(data.data.data);
       });
   };
 
   useLayoutEffect(() => {
     fetchData();
-  }, []);
+  }, [option]);
+
+  const handleChangeFilterOption = (e: any) => {
+    setSelectedOption(e);
+    setOption(e.value);
+    console.log(option)
+  };
 
   const labels = topProductsData.map((product) => product.productName);
 
@@ -86,7 +103,21 @@ const HorizontalBarChart: React.FC = () => {
     ],
   };
 
-  return <StyledHorizontalBarChart options={options} data={data} />;
+  return (
+    <HorizontalBarChartContainer>
+      <HorizontalBarChartHeader>
+        <HorizontalBarChartTitle>
+          {horizontalBarChartTitle}
+        </HorizontalBarChartTitle>
+        <StyledSelect
+          defaultValue={selectedOption}
+          onChange={(e: any) => handleChangeFilterOption(e)}
+          options={horizontalBarChartFilterOptions}
+        />
+      </HorizontalBarChartHeader>
+      <StyledHorizontalBarChart options={options} data={data} />
+    </HorizontalBarChartContainer>
+  );
 };
 
 export default HorizontalBarChart;

@@ -1,10 +1,13 @@
-import React, { FunctionComponent } from "react";
-import { WidgetTitle } from "../../common/common";
+import axios from "axios";
+import React, { FunctionComponent, useLayoutEffect, useState } from "react";
+import { requestURL, WidgetTitle } from "../../common/common";
+import { numberWithCommas } from "../../utils/format/format";
 import {
   WidgetHeader,
   WidgetPercentage,
   WidgetContainer,
-  WidgetSide,
+  WidgetLeftSide,
+  WidgetRightSide,
   WidgetAmount,
   WidgetLink,
 } from "./TopWidget.style";
@@ -16,23 +19,49 @@ interface TopWidgetProps {
 const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
   let data;
 
-  //temporary
-  const amount = 100;
-  const diff = 20;
+  const [invoiceData, setInvoiceData] = useState();
+  const [revenueData, setRevenueData] = useState();
+
+  const fetchRevenueData = async () => {
+    return await axios
+      .get(
+        `${requestURL}ftiles/dashboard/revenue/allRevenue?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000`,
+        { data: { method: "HEAD", mode: "no-cors" } }
+      )
+      .then((data: any) => {
+        setRevenueData(data.data.data);
+      });
+  };
+
+  const fetchInvoiceData = async () => {
+    return await axios
+      .get(
+        `${requestURL}ftiles/dashboard/invoice/allInvoice?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000`,
+        { data: { method: "HEAD", mode: "no-cors" } }
+      )
+      .then((data: any) => {
+        setInvoiceData(data.data.data);
+      });
+  };
+
+  useLayoutEffect(() => {
+    fetchRevenueData();
+    fetchInvoiceData();
+  }, []);
 
   switch (type) {
     case WidgetTitle.TOTAL_INVOICE:
       data = {
-        title: "71 hóa đơn",
-        isMoney: false,
-        link: "See all invoices",
+        title: invoiceData ? `${invoiceData} hóa đơn` : "0 hóa đơn",
+        amount: revenueData ? numberWithCommas(revenueData) : "0",
+        link: "Doanh thu",
         icon: null,
       };
       break;
     case WidgetTitle.TOTAL_REQUEST:
       data = {
         title: "0 phiếu",
-        isMoney: false,
+        amount: 0,
         link: "View all orders",
         icon: null,
       };
@@ -40,7 +69,7 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
     case WidgetTitle.TODAY_ORDERS:
       data = {
         title: "Số đơn hôm nay",
-        isMoney: true,
+        amount: 0,
         link: "View net earnings",
         icon: null,
       };
@@ -48,7 +77,7 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
     case WidgetTitle.RECENT_ACTIVITY:
       data = {
         title: "Hoạt động gần đây",
-        isMoney: true,
+        amount: 0,
         link: "See details",
         icon: null,
       };
@@ -59,14 +88,14 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
 
   return (
     <WidgetContainer>
-      <WidgetSide>
+      <WidgetLeftSide>
         <WidgetHeader>{data ? data.title : null}</WidgetHeader>
-        <WidgetAmount>{amount}</WidgetAmount>
+        <WidgetAmount>{data ? data.amount : null}</WidgetAmount>
         <WidgetLink>{data ? data.link : null}</WidgetLink>
-      </WidgetSide>
-      <WidgetSide>
-        <WidgetPercentage>{diff} %</WidgetPercentage>
-      </WidgetSide>
+      </WidgetLeftSide>
+      <WidgetRightSide>
+        <WidgetPercentage>NaN</WidgetPercentage>
+      </WidgetRightSide>
     </WidgetContainer>
   );
 };

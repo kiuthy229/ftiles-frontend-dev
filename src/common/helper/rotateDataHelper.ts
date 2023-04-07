@@ -313,7 +313,7 @@ export function rotateDataForStackedBar(data: any, timeUnit: string) {
 
   let result = _addNull(temp, timeUnit, allDay, allBranchesInThisData);
   _addMissingTime(result, timeUnit);
-  console.log(result);
+  // console.log(result);
   return _flatArr(result);
 }
 
@@ -440,7 +440,7 @@ function _flatArr(data: any) {
     });
     data[i] = keysList;
   }
-  console.log(data);
+  // console.log(data);
   return data;
 }
 

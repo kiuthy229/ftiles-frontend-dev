@@ -8,9 +8,18 @@ export const HorizontalBarChartContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 15px;
-  background-color: #f7f9fb;
   border-radius: 8px;
+  flex: 4;
+`;
+
+export const HorizontalBarChartHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const HorizontalBarChartTitle = styled.div`
+  margin-bottom: 10px;
+  font-weight: 500;
 `;
 
 export const StyledHorizontalBarChart = styled(Bar)`

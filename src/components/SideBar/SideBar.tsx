@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useLayoutEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import {
@@ -18,11 +18,62 @@ import {
   StyledSettingsApplicationsIcon,
   StyledStoreIcon,
 } from "./SideBar.style";
+import { requestURL } from "../../common/common";
 import logo from "../../assets/logo.png";
+import axios, { all } from "axios";
 
 interface SideBarProps {}
 
+export type allBranchesData = {
+  id: number;
+  branchName: string;
+};
+
+let initialValue = [
+  {
+    id: 1000000146,
+    branchName: "1. Kho Nhà Máy",
+  },
+  {
+    id: 1000000145,
+    branchName: "2. Kho Ngoại Quan",
+  },
+  {
+    id: 1000000114,
+    branchName: "3. Kho Tổng Miền Nam",
+  },
+  {
+    id: 1000000204,
+    branchName: "4. Kho Củ Chi",
+  },
+  {
+    id: 1000000158,
+    branchName: "Chi nhánh thuế",
+  },
+  {
+    id: 1000000202,
+    branchName: "Dev Test",
+  },
+];
 const SideBar: FunctionComponent<SideBarProps> = () => {
+  const [allBranches, setAllBranches] = useState<allBranchesData[]>(
+    initialValue
+  );
+
+  const fetchData = async () => {
+    return await axios
+      .get(`${requestURL}ftiles/branch/allBranches`, {
+        data: { method: "HEAD", mode: "no-cors" },
+      })
+      .then((data: any) => {
+        setAllBranches(data.data.data);
+      });
+  };
+
+  useLayoutEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <SideBarContainer>
       <LogoContainer>
@@ -42,30 +93,19 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
             <BranchHeaderText>CHI NHÁNH</BranchHeaderText>
           </BranchHeader>
 
-          <CenterItem>
-            <ItemText>Chi nhánh 1</ItemText>
-          </CenterItem>
-          <CenterItem>
-            <ItemText>Chi nhánh 2</ItemText>
-          </CenterItem>
-          <CenterItem>
-            <ItemText>Chi nhánh 3</ItemText>
-          </CenterItem>
-          <CenterItem>
-            <ItemText>Chi nhánh 4</ItemText>
-          </CenterItem>
-          <CenterItem>
-            <ItemText>Chi nhánh 5</ItemText>
-          </CenterItem>
-          <CenterItem>
-            <ItemText>Chi nhánh 6</ItemText>
-          </CenterItem>
+          {allBranches
+            ? allBranches.map((branch) => (
+                <CenterItem>
+                  <ItemText>{branch.branchName}</ItemText>
+                </CenterItem>
+              ))
+            : null}
 
           <br />
 
           <CenterItem>
             <StyledLocalShippingIcon />
-            <ItemText>3. Kho tổng Miền Nam</ItemText>
+            <ItemText>Giao hàng</ItemText>
           </CenterItem>
 
           <br />

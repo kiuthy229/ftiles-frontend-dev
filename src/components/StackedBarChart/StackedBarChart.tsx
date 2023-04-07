@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,9 +9,19 @@ import {
   BarElement,
   Title,
 } from "chart.js";
-import { requestURL } from "../../common/common";
+import {
+  requestURL,
+  stackedBarChartFilterOptions,
+  stackedBarChartTitle,
+} from "../../common/common";
 import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
-import { StackedBarChart, StackedBarChartTitle } from "./StackedBarChart.style";
+import {
+  StackedBarChart,
+  StackedBarChartHeader,
+  StackedBarChartTitle,
+  StyledSelect,
+} from "./StackedBarChart.style";
+import { map } from "../../utils/sortWeekDays";
 import axios from "axios";
 
 //doanh thu thuần tháng này
@@ -55,10 +65,14 @@ const BarChart: React.FC = () => {
     Tooltip,
     Legend
   );
-
-  const [_, setRevenueByDayData] = useState<AllRevenueStates>({});
-
+  const [selectedOption, setSelectedOption] = useState(
+    stackedBarChartFilterOptions[2]
+  );
+  const [revenueByDayData, setRevenueByDayData] = useState<AllRevenueStates>(
+    {}
+  );
   const [rotateData, setRotateData] = useState<any>({});
+  const [_, setOption] = useState<string>("weekday");
 
   const fetchData = async () => {
     return await axios
@@ -76,15 +90,15 @@ const BarChart: React.FC = () => {
     fetchData();
   }, []);
 
-  let labels = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
+  const handleChangeFilterOption = (e: any) => {
+    setSelectedOption(e);
+    console.log(e.value);
+    setOption(e.value);
+  };
+
+  let labels = Object.keys(revenueByDayData).sort(
+    (a: any, b: any) => map[a] - map[b]
+  );
 
   const data = {
     labels,
@@ -119,7 +133,16 @@ const BarChart: React.FC = () => {
 
   return (
     <StackedBarChart>
-      <StackedBarChartTitle>DOANH THU THUẦN THÁNG NÀY</StackedBarChartTitle>
+      <StackedBarChartHeader>
+        <StackedBarChartTitle>{stackedBarChartTitle}</StackedBarChartTitle>
+
+        <StyledSelect
+          defaultValue={selectedOption}
+          onChange={(e: any) => handleChangeFilterOption(e)}
+          options={stackedBarChartFilterOptions}
+        />
+      </StackedBarChartHeader>
+
       <Bar data={data} options={options} />
     </StackedBarChart>
   );

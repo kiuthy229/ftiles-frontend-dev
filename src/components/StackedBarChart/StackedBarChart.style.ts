@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Select from "react-select";
 
 export const StackedBarChart = styled.div`
   flex: 4;
@@ -6,7 +7,11 @@ export const StackedBarChart = styled.div`
   box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   padding: 10px;
   color: gray;
-  background-color: #f7f9fb;
+`;
+
+export const StackedBarChartHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const StackedBarChartTitle = styled.div`
@@ -14,3 +19,9 @@ export const StackedBarChartTitle = styled.div`
   font-weight: 500;
 `;
 
+export const StyledSelect = styled(Select)`
+  margin: 0 0 0 5vh;
+  max-width: 25vh;
+  height: 8vh;
+  font-size: 13px;
+`;
