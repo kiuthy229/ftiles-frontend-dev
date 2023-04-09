@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { defaultDate, fromLastMonth, WidgetTitle } from "../../common/common";
 import { useAxios } from "../../common/useAxios";
-import { numberWithCommas } from "../../utils/format/format";
+import { numberWithCommas } from "../../utils/format";
 import { MyContext } from "../Theme";
 import {
   WidgetHeader,
