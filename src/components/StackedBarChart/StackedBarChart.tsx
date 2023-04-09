@@ -14,6 +14,8 @@ import {
 } from "chart.js";
 import {
   defaultDate,
+  fromLastMonth,
+  LOADING_MESSAGE,
   requestURL,
   stackedBarChartFilterOptions,
   STACKED_BAR_CHART_TITLE,
@@ -62,14 +64,9 @@ const options = {
     },
     y: {
       stacked: true,
-      max: 16000000000,
     },
   },
 };
-
-const fromLastMonth = new Date(new Date().setDate(new Date().getDate() - 30))
-  .toJSON()
-  .replace(/.$/, "000");
 
 const defaultUrl = `ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&timeUnit=weekday`;
 
@@ -86,7 +83,7 @@ const StackedBarChart: React.FC = () => {
     stackedBarChartFilterOptions[0]
   );
   const [_, setRevenueByTimeUnitData] = useState<AllRevenueStates>({});
-  const [rotateData, setRotateData] = useState<any>({});
+  const [rotateData, setRotateData] = useState<AllRevenueStates>({});
   const [option, setOption] = useState<string>(
     stackedBarChartFilterOptions[0].value
   );
@@ -100,18 +97,18 @@ const StackedBarChart: React.FC = () => {
 
   useEffect(() => {
     setUrl(
-      `ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&timeUnit=${option}&branchIds=${branchData}`
+      `ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&timeUnit=${option}&branchIds=${branchData}`
     );
   }, [branchData, option]);
 
-  const handleChangeFilterOption = (e: any) => {
+  const handleChangeFilterOption = (e: { value: string; label: string }) => {
     setSelectedOption(e);
     setOption(e.value);
     setRevenueByTimeUnitData({});
   };
 
   let labels = loading
-    ? null
+    ? LOADING_MESSAGE
     : option === stackedBarChartFilterOptions[0].value
     ? weekDays
     : option === stackedBarChartFilterOptions[1].value

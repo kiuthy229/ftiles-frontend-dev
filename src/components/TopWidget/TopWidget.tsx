@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { WidgetTitle } from "../../common/common";
+import { defaultDate, fromLastMonth, WidgetTitle } from "../../common/common";
 import { useAxios } from "../../common/useAxios";
 import { numberWithCommas } from "../../utils/format/format";
 import { MyContext } from "../Theme";
@@ -22,10 +22,8 @@ interface TopWidgetProps {
   type: WidgetTitle;
 }
 
-const allRevenueUrl =
-  "ftiles/dashboard/revenue/allRevenue?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000";
-const allInvoiceUrl =
-  "ftiles/dashboard/invoice/allInvoice?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000";
+const allRevenueUrl = `ftiles/dashboard/revenue/allRevenue?fromDate=${fromLastMonth}&toDate=${defaultDate.to}`;
+const allInvoiceUrl = `ftiles/dashboard/invoice/allInvoice?fromDate=${fromLastMonth}&toDate=${defaultDate.to}`;
 
 const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
   let data;
@@ -52,10 +50,10 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
 
   useEffect(() => {
     setRevenueDataUrl(
-      `ftiles/dashboard/revenue/allRevenue?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000&branchIds=${branchData}`
+      `ftiles/dashboard/revenue/allRevenue?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&branchIds=${branchData}`
     );
     setInvoiceDataUrl(
-      `ftiles/dashboard/invoice/allInvoice?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000&branchIds=${branchData}`
+      `ftiles/dashboard/invoice/allInvoice?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&branchIds=${branchData}`
     );
   }, [branchData]);
 

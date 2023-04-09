@@ -24,7 +24,6 @@ export const useAxios = (url: string) => {
       .then((data: any) => {
         setApiData(data.data.data);
         setLoading(false);
-        console.log(data.data.data);
       });
   }, [url]);
 

@@ -1,4 +1,4 @@
-export const weekDays: any = [
+export const weekDays: string[] = [
   "Monday",
   "Tuesday",
   "Wednesday",
@@ -8,7 +8,7 @@ export const weekDays: any = [
   "Sunday",
 ];
 
-export const hour: any = [
+export const hour: string[] = [
   "1",
   "2",
   "3",
@@ -35,7 +35,7 @@ export const hour: any = [
   "24",
 ];
 
-export const date: any = [
+export const date: string[] = [
   "1",
   "2",
   "3",

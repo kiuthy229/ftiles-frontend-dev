@@ -11,6 +11,8 @@ import { MyContext } from "../Theme";
 import { useAxios } from "../../common/useAxios";
 import {
   defaultDate,
+  LOADING_MESSAGE,
+  NOT_FOUND_MESSAGE,
   pieChartFilterOptions,
   PIE_CHART_TITLE,
 } from "../../common/common";
@@ -150,21 +152,20 @@ const PieChart: React.FC = ({}) => {
       default:
         break;
     }
-    console.log(new Date().toJSON().substring(0, 11) + "23:59:00.0000000");
   }, [selectedOption]);
 
-  const handleChangeFilterOption = (e: any) => {
+  const handleChangeFilterOption = (e: { value: string; label: string }) => {
     setSelectedOption(e);
   };
 
   const data = {
     labels: loading
-      ? ["loading data..."]
+      ? LOADING_MESSAGE
       : apiData && apiData.allInvoiceRevenueByEachBranch.length !== 0
       ? apiData.allInvoiceRevenueByEachBranch.map(
           (branch: BranchData) => branch.branchName
         )
-      : ["No data for this branch/ time-range"],
+      : NOT_FOUND_MESSAGE,
     datasets: [
       {
         label: "",

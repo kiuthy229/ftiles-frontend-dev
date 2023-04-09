@@ -91,6 +91,11 @@ export const initialBranchesValue = [
   },
 ];
 
+export const fromLastMonth =
+  new Date(new Date().setDate(new Date().getDate() - 30))
+    .toJSON()
+    .substring(0, 11) + "23:59:00.0000000";
+
 export const defaultDate = {
   from:
     new Date(new Date().setDate(new Date().getDate() - 1))
@@ -98,3 +103,7 @@ export const defaultDate = {
       .substring(0, 11) + "23:59:00.0000000",
   to: new Date().toJSON().substring(0, 11) + "23:59:00.0000000",
 };
+
+export const NOT_FOUND_MESSAGE = ["No data for this branch/ time-range"];
+
+export const LOADING_MESSAGE = ["Loading..."];

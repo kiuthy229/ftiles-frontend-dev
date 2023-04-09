@@ -1,5 +1,9 @@
-import e from "express";
-export function rotateDataForStackedBar(data: any, timeUnit: string) {
+import { AllRevenueStates } from "../../components/StackedBarChart/StackedBarChart";
+
+export function rotateDataForStackedBar(
+  data: AllRevenueStates,
+  timeUnit: string
+) {
   const newData = data;
   let allBranchesInThisData: any = [];
   let allDay = [];

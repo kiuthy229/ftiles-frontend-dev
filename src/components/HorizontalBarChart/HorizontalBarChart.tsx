@@ -9,8 +9,12 @@ import {
   Legend,
 } from "chart.js";
 import {
+  defaultDate,
+  fromLastMonth,
   horizontalBarChartFilterOptions,
   HORIZONTAL_BAR_CHART_TITLE,
+  LOADING_MESSAGE,
+  NOT_FOUND_MESSAGE,
 } from "../../common/common";
 import {
   HorizontalBarChartContainer,
@@ -34,7 +38,7 @@ export type AllTopProductsData = {
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement as any,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -59,8 +63,7 @@ export const options = {
   },
 };
 
-const defaultUrl =
-  "ftiles/dashboard/product/allTopProduct?fromDate=2023-03-1T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000&by=revenue";
+const defaultUrl = `ftiles/dashboard/product/allTopProduct?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&by=revenue`;
 
 const HorizontalBarChart: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState(
@@ -82,21 +85,21 @@ const HorizontalBarChart: React.FC = () => {
 
   useEffect(() => {
     setUrl(
-      `ftiles/dashboard/product/allTopProduct?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000&by=${option}&branchIds=${branchData}`
+      `ftiles/dashboard/product/allTopProduct?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&by=${option}&branchIds=${branchData}`
     );
   }, [branchData, option]);
 
-  const handleChangeFilterOption = (e: any) => {
+  const handleChangeFilterOption = (e: { value: string; label: string }) => {
     setSelectedOption(e);
     setOption(e.value);
     setTopProductsData([]);
   };
 
   const labels = loading
-    ? null
+    ? LOADING_MESSAGE
     : topProductsData
     ? topProductsData.map((product) => wrapLabelAxis(product.productName, 20))
-    : null;
+    : NOT_FOUND_MESSAGE;
 
   const data = {
     labels,
@@ -104,10 +107,10 @@ const HorizontalBarChart: React.FC = () => {
       {
         label: "",
         data: loading
-          ? null
+          ? LOADING_MESSAGE
           : topProductsData
           ? topProductsData.map((product) => product.revenue)
-          : null,
+          : NOT_FOUND_MESSAGE,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
