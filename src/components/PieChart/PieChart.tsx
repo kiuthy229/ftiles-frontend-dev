@@ -140,7 +140,7 @@ const PieChart: React.FC = ({}) => {
         });
         break;
       }
-      case "last-quarter": {
+      case "last_quarter": {
         setDate({
           from: new Date(new Date().setDate(new Date().getDate() - 90))
             .toJSON()
