@@ -10,10 +10,8 @@ import {
   MessageText,
   MessageTime,
 } from "./Notification.style";
-import { generateImage } from "../../utils/imagesGenerator";
-import { EVENT_TYPE, requestURL } from "../../common/common";
-import axios from "axios";
 import { useAxios } from "../../common/useAxios";
+import { EVENT_TYPE } from "../../types";
 
 export type NotificationProps = {};
 

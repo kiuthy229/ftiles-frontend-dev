@@ -4,10 +4,11 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { defaultDate, fromLastMonth, WidgetTitle } from "../../common/common";
+import { defaultDate, fromLastMonth } from "../../common/common";
 import { useAxios } from "../../common/useAxios";
+import { WidgetTitle } from "../../types";
 import { numberWithCommas } from "../../utils/format";
-import { MyContext } from "../Theme";
+import { MyContext } from "../Theme/Theme";
 import {
   WidgetHeader,
   WidgetPercentage,

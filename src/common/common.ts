@@ -1,16 +1,8 @@
+import { WidgetTitle } from "../types";
+
 export const requestURL = "https://ftiles-backend-dev.ftiles.tech/";
 
-export enum WidgetTitle {
-  TOTAL_INVOICE = "total_invoice",
-  TODAY_ORDERS = "today_orders",
-}
-
 export const widgetList = [WidgetTitle.TOTAL_INVOICE, WidgetTitle.TODAY_ORDERS];
-
-export enum EVENT_TYPE {
-  SELL = "Bán đơn hàng",
-  BUY = "Đặt hàng",
-}
 
 export const STACKED_BAR_CHART_TITLE = "DOANH THU THUẦN THÁNG NÀY";
 

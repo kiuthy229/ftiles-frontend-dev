@@ -1,13 +1,15 @@
 import React from "react";
-import { widgetList } from "../../common/common";
-import HorizontalBarChart from "../../components/HorizontalBarChart/HorizontalBarChart";
+
 import Navbar from "../../components/Navbar/Navbar";
-import Notification from "../../components/Notification/NotificationItem";
+import ThemeProvider from "../../components/Theme/Theme";
+import HorizontalBarChart from "../../components/HorizontalBarChart/HorizontalBarChart";
 import PieChart from "../../components/PieChart/PieChart";
-import SideBar from "../../components/SideBar/SideBar";
 import StackedBarChart from "../../components/StackedBarChart/StackedBarChart";
-import ThemeProvider from "../../components/Theme";
+import SideBar from "../../components/SideBar/SideBar";
 import TopWidget from "../../components/TopWidget/TopWidget";
+import Notification from "../../components/Notification/NotificationItem";
+
+import { widgetList } from "../../common/common";
 import {
   ActivitiesContainer,
   BottomContainer,

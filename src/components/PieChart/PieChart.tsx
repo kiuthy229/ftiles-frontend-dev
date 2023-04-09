@@ -7,7 +7,7 @@ import {
   PieChartTitleContainer,
   StyledPieSelect,
 } from "./PieChart.style";
-import { MyContext } from "../Theme";
+import { MyContext } from "../Theme/Theme";
 import { useAxios } from "../../common/useAxios";
 import {
   defaultDate,

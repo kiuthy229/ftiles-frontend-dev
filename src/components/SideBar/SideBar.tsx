@@ -5,6 +5,8 @@ import React, {
   useState,
 } from "react";
 
+import logo from "../../assets/logo.png";
+
 import { Link } from "react-router-dom";
 import {
   BranchHeader,
@@ -25,9 +27,8 @@ import {
   StyledStoreIcon,
 } from "./SideBar.style";
 import { initialBranchesValue } from "../../common/common";
-import { MyContext } from "../Theme";
+import { MyContext } from "../Theme/Theme";
 import { useAxios } from "../../common/useAxios";
-import logo from "../../assets/logo.png";
 
 interface SideBarProps {}
 

@@ -24,7 +24,7 @@ import {
 } from "./HorizontalBarChart.style";
 import { StyledSelect } from "../StackedBarChart/StackedBarChart.style";
 import { wrapLabelAxis } from "../../utils/wrapLabelAxis";
-import { MyContext } from "../Theme";
+import { MyContext } from "../Theme/Theme";
 import { useAxios } from "../../common/useAxios";
 
 export type AllTopProductsData = {

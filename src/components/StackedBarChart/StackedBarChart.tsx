@@ -16,7 +16,6 @@ import {
   defaultDate,
   fromLastMonth,
   LOADING_MESSAGE,
-  requestURL,
   stackedBarChartFilterOptions,
   STACKED_BAR_CHART_TITLE,
 } from "../../common/common";
@@ -26,8 +25,7 @@ import {
   StackedBarChartTitle,
   StyledSelect,
 } from "./StackedBarChart.style";
-import axios from "axios";
-import { MyContext } from "../Theme";
+import { MyContext } from "../Theme/Theme";
 import { useAxios } from "../../common/useAxios";
 
 //doanh thu thuần tháng này

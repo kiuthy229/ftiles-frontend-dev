@@ -23,17 +23,6 @@ export interface Validation {
   depends?: string[];
 }
 
-export enum ButtonType {
-  SUBMIT = "submit",
-  BUTTON = "button",
-  RESET = "reset",
-}
-
-export enum ReviewStatus {
-  NEEDS_REVIEW = "Needs review",
-  REVIEW_DONE = "Review done",
-}
-
 export enum ErrorCode {
   BAD_USER_INPUT = "BAD_USER_INPUT",
 }
@@ -45,15 +34,15 @@ export enum FormMessageVariant {
   WARNING = "warning",
 }
 
-export enum LimitStatusType {
-  KEEP_LIMIT = "Keep Limit",
-  REDUCE_LIMIT = "Reduce Limit",
-  CLOSE_CARD = "Close Card",
-}
-
 export type Builder<T> = (overrides?: Partial<T>) => T;
 
-export enum CreditCardProvider {
-  NAB = "NAB",
-  CBA = "CBA",
+export enum WidgetTitle {
+  TOTAL_INVOICE = "total_invoice",
+  TODAY_ORDERS = "today_orders",
 }
+
+export enum EVENT_TYPE {
+  SELL = "Bán đơn hàng",
+  BUY = "Đặt hàng",
+}
+
