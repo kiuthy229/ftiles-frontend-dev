@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -45,6 +51,7 @@ ChartJS.register(
 );
 
 export const options = {
+  animation: false as false,
   indexAxis: "y" as const,
   elements: {
     bar: {
@@ -72,27 +79,31 @@ const HorizontalBarChart: React.FC = () => {
   const [option, setOption] = useState<string>(
     horizontalBarChartFilterOptions[0].value
   );
-  const [topProductsData, setTopProductsData] = useState<AllTopProductsData[]>(
-    []
-  );
+  let topProductsData: AllTopProductsData[] = [];
   const [url, setUrl] = useState<string>(defaultUrl);
   let { apiData, loading }: any = useAxios(url);
   const { branchData } = useContext<any>(MyContext);
 
-  useLayoutEffect(() => {
-    setTopProductsData(apiData);
-  }, [apiData]);
+  topProductsData = useMemo(() => apiData, [apiData]);
+
+  useEffect(() => {
+    if (url.includes("&by=revenue")) {
+      setUrl(url.replace("&by=revenue", `&by=${option}`));
+    } else if (url.includes("&by=quantity")) {
+      setUrl(url.replace("&by=quantity", `&by=${option}`));
+    }
+  }, [option]);
 
   useEffect(() => {
     setUrl(
       `ftiles/dashboard/product/allTopProduct?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&by=${option}&branchIds=${branchData}`
     );
-  }, [branchData, option]);
+    console.log("branch data changed");
+  }, [branchData]);
 
   const handleChangeFilterOption = (e: { value: string; label: string }) => {
     setSelectedOption(e);
     setOption(e.value);
-    setTopProductsData([]);
   };
 
   const labels = loading

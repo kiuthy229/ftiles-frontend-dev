@@ -2,6 +2,7 @@ import React, {
   FunctionComponent,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { defaultDate, fromLastMonth } from "../../common/common";
@@ -25,29 +26,39 @@ interface TopWidgetProps {
 
 const allRevenueUrl = `ftiles/dashboard/revenue/allRevenue?fromDate=${fromLastMonth}&toDate=${defaultDate.to}`;
 const allInvoiceUrl = `ftiles/dashboard/invoice/allInvoice?fromDate=${fromLastMonth}&toDate=${defaultDate.to}`;
+const todayInvoiceUrl = `ftiles/dashboard/invoice/allInvoice?fromDate=${defaultDate.from}&toDate=${defaultDate.to}`;
 
 const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
   let data;
 
   const [revenueDataUrl, setRevenueDataUrl] = useState<string>(allRevenueUrl);
   const [invoiceDataUrl, setInvoiceDataUrl] = useState<string>(allInvoiceUrl);
-  const [invoiceData, setInvoiceData] = useState<number>();
-  const [revenueData, setRevenueData] = useState<number>();
+  const [todayInvoiceDataUrl, setTodayInvoiceDataUrl] = useState<string>(
+    todayInvoiceUrl
+  );
+  let revenueData = 0;
+  let invoiceData = 0;
+  let todayInvoiceData = 0;
   const { branchData } = useContext<any>(MyContext);
-  // const [branch, setBranch] = useState<number[]>(initialBranchesList);
+
   let {
     apiData: apiRevenueData,
     loading: allRevenueDataLoading,
   }: any = useAxios(revenueDataUrl);
+
   let {
     apiData: apiInvoiceData,
     loading: allInvoiceDataLoading,
   }: any = useAxios(invoiceDataUrl);
 
-  useEffect(() => {
-    setInvoiceData(apiInvoiceData);
-    setRevenueData(apiRevenueData);
-  }, [apiInvoiceData, apiRevenueData]);
+  let {
+    apiData: apiTodayInvoiceData,
+    loading: todayInvoiceDataLoading,
+  }: any = useAxios(todayInvoiceDataUrl);
+
+  revenueData = useMemo(() => apiRevenueData, [apiRevenueData]);
+  invoiceData = useMemo(() => apiInvoiceData, [apiInvoiceData]);
+  todayInvoiceData = useMemo(() => apiTodayInvoiceData, [apiTodayInvoiceData]);
 
   useEffect(() => {
     setRevenueDataUrl(
@@ -79,7 +90,7 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
     case WidgetTitle.TODAY_ORDERS:
       data = {
         title: "Số đơn hôm nay",
-        amount: allInvoiceDataLoading ? 0 : invoiceData ? `${invoiceData}` : 0,
+        amount: todayInvoiceDataLoading ? 0 : todayInvoiceData ? `${todayInvoiceData}` : 0,
         link: "Xem tất cả đơn",
         icon: null,
       };

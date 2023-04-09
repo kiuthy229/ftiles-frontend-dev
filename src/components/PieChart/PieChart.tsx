@@ -31,6 +31,7 @@ type BranchData = {
 };
 
 const options = {
+  animation: false as false,
   responsive: true,
   pieceLabel: {
     render: "label",

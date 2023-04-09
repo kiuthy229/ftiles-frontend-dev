@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useMemo, useState } from "react";
 
 import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
 import { date, hour, weekDays } from "../../utils/timeRangeLabelsData";
@@ -39,6 +39,7 @@ export interface AllRevenueDetails {
 export type AllRevenueStates = Record<string, AllRevenueDetails[]>;
 
 const options = {
+  animation: false as false,
   maintainAspectRatio: false,
   skipNull: true,
   plugins: {
@@ -80,8 +81,7 @@ const StackedBarChart: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState(
     stackedBarChartFilterOptions[0]
   );
-  const [_, setRevenueByTimeUnitData] = useState<AllRevenueStates>({});
-  const [rotateData, setRotateData] = useState<AllRevenueStates>({});
+  let rotateData: AllRevenueStates = {};
   const [option, setOption] = useState<string>(
     stackedBarChartFilterOptions[0].value
   );
@@ -89,9 +89,10 @@ const StackedBarChart: React.FC = () => {
   let { apiData, loading }: any = useAxios(url);
   const { branchData } = useContext<any>(MyContext);
 
-  useLayoutEffect(() => {
-    setRotateData(rotateDataForStackedBar(apiData, option));
-  }, [apiData, option]);
+  rotateData = useMemo(() => rotateDataForStackedBar(apiData, option), [
+    apiData,
+    option,
+  ]);
 
   useEffect(() => {
     setUrl(
@@ -102,7 +103,6 @@ const StackedBarChart: React.FC = () => {
   const handleChangeFilterOption = (e: { value: string; label: string }) => {
     setSelectedOption(e);
     setOption(e.value);
-    setRevenueByTimeUnitData({});
   };
 
   let labels = loading

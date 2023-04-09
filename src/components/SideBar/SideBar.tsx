@@ -2,6 +2,7 @@ import React, {
   FunctionComponent,
   useContext,
   useLayoutEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -38,9 +39,7 @@ export type allBranchesData = {
 };
 
 const SideBar: FunctionComponent<SideBarProps> = () => {
-  const [allBranches, setAllBranches] = useState<allBranchesData[]>(
-    initialBranchesValue
-  );
+  let allBranches: allBranchesData[] = initialBranchesValue;
   const { actions } = useContext<any>(MyContext);
   const branchOptions = allBranches
     ? allBranches.map((branch) => ({
@@ -48,12 +47,10 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
         label: branch.branchName,
       }))
     : [];
-  const [selectedOption] = useState(branchOptions[0]);
+  const [selectedOption] = useState([]);
   let { apiData, loading }: any = useAxios("ftiles/branch/allBranches");
 
-  useLayoutEffect(() => {
-    setAllBranches(apiData);
-  }, [loading]);
+  allBranches = useMemo(() => apiData, [loading]);
 
   return (
     <SideBarContainer>
@@ -77,35 +74,16 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
           <CenterItem>
             <BranchSelect
               defaultValue={selectedOption}
-              onChange={(e: any) => actions.chooseBranch(e.value)}
+              isMulti
+              onChange={(e: any) => {
+                actions.chooseBranch(e.map((data: any) => data.value));
+              }}
               options={branchOptions}
               components={{
                 DropdownIndicator: () => null,
                 IndicatorSeparator: () => null,
               }}
             />
-          </CenterItem>
-
-          <br />
-
-          <CenterItem>
-            <StyledLocalShippingIcon />
-            <ItemText>Giao hàng</ItemText>
-          </CenterItem>
-
-          <br />
-
-          <CenterItem>
-            <StyledSettingsApplicationsIcon />
-            <ItemText>Settings</ItemText>
-          </CenterItem>
-          <CenterItem>
-            <StyledAccountCircleOutlinedIcon />
-            <ItemText>Profile</ItemText>
-          </CenterItem>
-          <CenterItem>
-            <StyledExitToAppIcon />
-            <ItemText>Logout</ItemText>
           </CenterItem>
         </CenterItemList>
       </CenterContainer>
