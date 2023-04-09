@@ -160,21 +160,21 @@ const PieChart: React.FC = ({}) => {
   const data = {
     labels: loading
       ? ["loading data..."]
-      : apiData
+      : apiData && apiData.allInvoiceRevenueByEachBranch.length !== 0
       ? apiData.allInvoiceRevenueByEachBranch.map(
           (branch: BranchData) => branch.branchName
         )
-      : null,
+      : ["No data for this branch/ time-range"],
     datasets: [
       {
         label: "",
         data: loading
           ? [100]
-          : apiData
+          : apiData && apiData.allInvoiceRevenueByEachBranch.length !== 0
           ? apiData.allInvoiceRevenueByEachBranch.map(
               (branch: BranchData) => branch.revenue
             )
-          : null,
+          : [100],
         backgroundColor: [
           "#C6C7F8",
           "#95A4FC",

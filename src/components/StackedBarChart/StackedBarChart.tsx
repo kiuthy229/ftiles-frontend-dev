@@ -13,6 +13,7 @@ import {
   Title,
 } from "chart.js";
 import {
+  defaultDate,
   requestURL,
   stackedBarChartFilterOptions,
   STACKED_BAR_CHART_TITLE,
@@ -66,8 +67,11 @@ const options = {
   },
 };
 
-const defaultUrl =
-  "ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&timeUnit=weekday";
+const fromLastMonth = new Date(new Date().setDate(new Date().getDate() - 30))
+  .toJSON()
+  .replace(/.$/, "000");
+
+const defaultUrl = `ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&timeUnit=weekday`;
 
 const StackedBarChart: React.FC = () => {
   ChartJS.register(
@@ -117,34 +121,64 @@ const StackedBarChart: React.FC = () => {
     labels,
     datasets: [
       {
-        label: Object.keys(rotateData)[0],
+        label: Object.keys(rotateData)[0] ? Object.keys(rotateData)[0] : "",
         backgroundColor: "rgba(75, 192, 192, 0.5)",
         data: Object.values(rotateData)[0],
       },
       {
-        label: Object.keys(rotateData)[1],
+        label: Object.keys(rotateData)[1] ? Object.keys(rotateData)[1] : "",
         backgroundColor: "rgba(75, 342, 142, 0.5)",
         data: Object.values(rotateData)[1],
       },
       {
-        label: Object.keys(rotateData)[2],
+        label: Object.keys(rotateData)[2] ? Object.keys(rotateData)[2] : "",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         data: Object.values(rotateData)[2],
       },
       {
-        label: Object.keys(rotateData)[3],
+        label: Object.keys(rotateData)[3] ? Object.keys(rotateData)[3] : "",
         backgroundColor: "rgba(54, 162, 235, 0.5)",
         data: Object.values(rotateData)[3],
       },
       {
-        label: Object.keys(rotateData)[4],
-        backgroundColor: "rgba(75, 192, 192, 0.5)",
+        label: Object.keys(rotateData)[4] ? Object.keys(rotateData)[4] : "",
+        backgroundColor: "#E8A0BF",
         data: Object.values(rotateData)[4],
       },
       {
-        label: Object.keys(rotateData)[5],
+        label: Object.keys(rotateData)[5] ? Object.keys(rotateData)[5] : "",
         backgroundColor: "rgba(255, 206, 86, 0.5)",
         data: Object.values(rotateData)[5],
+      },
+      {
+        label: Object.keys(rotateData)[6] ? Object.keys(rotateData)[0] : "",
+        backgroundColor: "#F9E2AF",
+        data: Object.values(rotateData)[6],
+      },
+      {
+        label: Object.keys(rotateData)[7] ? Object.keys(rotateData)[1] : "",
+        backgroundColor: "#FA9884",
+        data: Object.values(rotateData)[7],
+      },
+      {
+        label: Object.keys(rotateData)[8] ? Object.keys(rotateData)[2] : "",
+        backgroundColor: "#576CBC",
+        data: Object.values(rotateData)[8],
+      },
+      {
+        label: Object.keys(rotateData)[9] ? Object.keys(rotateData)[3] : "",
+        backgroundColor: "#A9907E",
+        data: Object.values(rotateData)[9],
+      },
+      {
+        label: Object.keys(rotateData)[10] ? Object.keys(rotateData)[4] : "",
+        backgroundColor: "#9DC08B",
+        data: Object.values(rotateData)[10],
+      },
+      {
+        label: Object.keys(rotateData)[11] ? Object.keys(rotateData)[5] : "",
+        backgroundColor: "#BAD7E9",
+        data: Object.values(rotateData)[11],
       },
     ],
   };
@@ -161,7 +195,7 @@ const StackedBarChart: React.FC = () => {
         />
       </StackedBarChartHeader>
 
-      <Bar data={data} options={options} style={{ maxHeight: 450 }} />
+      <Bar data={data as any} options={options} style={{ maxHeight: 450 }} />
     </StackedBarChartContainer>
   );
 };
