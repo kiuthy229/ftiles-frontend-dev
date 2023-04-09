@@ -17,6 +17,7 @@ import {
   UserAvatar,
   Wrapper,
 } from "./Navbar.style";
+import { generateImage } from "../../utils/imagesGenerator";
 
 interface NavbarProps {}
 
@@ -61,7 +62,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
               </Item>
 
               <Item>
-                <UserAvatar src="" alt="" />
+                <UserAvatar src={generateImage()} alt="" />
               </Item>
             </RightCornerItems>
           </Wrapper>

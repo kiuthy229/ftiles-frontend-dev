@@ -6,7 +6,7 @@ export const StackedBarChartContainer = styled.div`
   -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
   box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   padding: 10px;
-  color: gray;
+  background-color:#ffffff;
 `;
 
 export const StackedBarChartHeader = styled.div`

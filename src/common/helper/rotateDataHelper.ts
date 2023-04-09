@@ -1,6 +1,6 @@
 import e from "express";
 export function rotateDataForStackedBar(data: any, timeUnit: string) {
-  const newData = data.data;
+  const newData = data;
   let allBranchesInThisData: any = [];
   let allDay = [];
 

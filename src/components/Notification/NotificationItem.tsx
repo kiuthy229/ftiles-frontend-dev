@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import Pusher from "pusher-js";
 import {
   ActivityContainer,
@@ -11,6 +11,9 @@ import {
   MessageTime,
 } from "./Notification.style";
 import { generateImage } from "../../utils/imagesGenerator";
+import { EVENT_TYPE, requestURL } from "../../common/common";
+import axios from "axios";
+import { useAxios } from "../../common/useAxios";
 
 export type NotificationProps = {};
 
@@ -23,8 +26,15 @@ export type messageValues = {
   atTime: string;
 };
 
+const url = "ftiles/activity/nearestActivities";
+
 const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
+  let { apiData, loading }: any = useAxios(url);
   const [messages, setMessages] = useState<messageValues[]>([]);
+
+  useEffect(() => {
+    setMessages(apiData);
+  }, [apiData]);
 
   useEffect(() => {
     //Set up Pusher client
@@ -61,28 +71,41 @@ const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
     <div className="notification">
       <ActivityHeaderContainer>Thông báo</ActivityHeaderContainer>
       <ActivityContainer>
-        {messages.map(
-          (
-            { subject, conjunction1, event, conjunction2, withValue, atTime },
-            index
-          ) => (
-            <ActivityItem key={index}>
-              <div>
-                <ActivityImage src={generateImage()} />
-              </div>
-              <div>
-                <ActivityContent>
-                  <MessageBoldText>{subject}</MessageBoldText>
-                  <MessageText>{conjunction1}</MessageText>
-                  <MessageBoldText>{event}</MessageBoldText>
-                  <MessageText>{conjunction2} giá</MessageText>
-                  <MessageBoldText>{withValue}</MessageBoldText>
-                </ActivityContent>
-                <MessageTime>{atTime}</MessageTime>
-              </div>
-            </ActivityItem>
+        {loading ? (
+          <ActivityItem>
+            <div>
+              <ActivityContent>loading activities...</ActivityContent>
+            </div>
+          </ActivityItem>
+        ) : messages ? (
+          messages.map(
+            (
+              { subject, conjunction1, event, conjunction2, withValue, atTime },
+              index
+            ) => (
+              <ActivityItem key={index}>
+                <div>
+                  <ActivityImage
+                    style={{
+                      backgroundColor:
+                        event === EVENT_TYPE.SELL ? "#F9E2AF" : "#C7E9B0",
+                    }}
+                  />
+                </div>
+                <div>
+                  <ActivityContent>
+                    <MessageBoldText>{subject}</MessageBoldText>
+                    <MessageText>{conjunction1}</MessageText>
+                    <MessageBoldText>{event}</MessageBoldText>
+                    <MessageText>{conjunction2} giá</MessageText>
+                    <MessageBoldText>{withValue}</MessageBoldText>
+                  </ActivityContent>
+                  <MessageTime>{atTime}</MessageTime>
+                </div>
+              </ActivityItem>
+            )
           )
-        )}
+        ) : null}
       </ActivityContainer>
     </div>
   );

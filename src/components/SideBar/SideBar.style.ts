@@ -4,6 +4,7 @@ import StoreIcon from "@mui/icons-material/Store";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import Select from "react-select";
 
 export const SideBarContainer = styled.div`
   flex: 1;
@@ -96,3 +97,13 @@ export const BranchHeader = styled.p`
 `;
 
 export const BranchHeaderText = styled.span``;
+
+export const BranchSelect = styled(Select)`
+  font-size: 13px;
+  &::-webkit-scrollbar {
+    visibility: hidden;
+  }
+  &::-webkit-scrollbar-track {
+    visibility: hidden;
+  }
+`;

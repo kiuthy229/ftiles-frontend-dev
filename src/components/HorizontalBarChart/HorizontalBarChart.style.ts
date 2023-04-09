@@ -9,6 +9,7 @@ export const HorizontalBarChartContainer = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   flex: 4;
+  background-color: #ffffff;
 `;
 
 export const HorizontalBarChartHeader = styled.div`

@@ -2,21 +2,21 @@ export const requestURL = "https://ftiles-backend-dev.ftiles.tech/";
 
 export enum WidgetTitle {
   TOTAL_INVOICE = "total_invoice",
-  TOTAL_REQUEST = "total_request",
   TODAY_ORDERS = "today_orders",
-  RECENT_ACTIVITY = "recent_activity",
 }
 
-export const widgetList = [
-  WidgetTitle.TOTAL_INVOICE,
-  WidgetTitle.TOTAL_REQUEST,
-  WidgetTitle.TODAY_ORDERS,
-  WidgetTitle.RECENT_ACTIVITY,
-];
+export const widgetList = [WidgetTitle.TOTAL_INVOICE, WidgetTitle.TODAY_ORDERS];
 
-export const stackedBarChartTitle = "DOANH THU THUẦN THÁNG NÀY";
+export enum EVENT_TYPE {
+  SELL = "Bán đơn hàng",
+  BUY = "Đặt hàng",
+}
 
-export const horizontalBarChartTitle = "TOP 10 HÀNG HÓA BÁN CHẠY THÁNG NÀY";
+export const STACKED_BAR_CHART_TITLE = "DOANH THU THUẦN THÁNG NÀY";
+
+export const HORIZONTAL_BAR_CHART_TITLE = "TOP 10 HÀNG HÓA BÁN CHẠY THÁNG NÀY";
+
+export const PIE_CHART_TITLE = "DOANH THU THUẦN THEO CHI NHÁNH THÁNG NÀY";
 
 export const stackedBarChartFilterOptions = [
   { value: "weekday", label: "Theo thứ" },
@@ -29,13 +29,39 @@ export const horizontalBarChartFilterOptions = [
   { value: "quantity", label: "Theo quantity" },
 ];
 
-export const initialBranchesList = [
+export const pieChartFilterOptions = [
+  { value: "today", label: "Hôm nay" },
+  { value: "yesterday", label: "Hôm qua" },
+  { value: "last_week", label: "7 ngày qua" },
+  { value: "this_month", label: "Tháng này" },
+  { value: "last_month", label: "Tháng trước" },
+  { value: "last_quarter", label: "Qúy trước" },
+];
+
+export const branches = [
+  1000000146,
   1000000145,
   1000000114,
+  1000000204,
   1000000158,
+  1000000202,
   1261039,
+  1000000201,
+  1000000182,
+  1000000160,
+  1000000178,
+  1000000161,
+  1000000183,
+  1000000180,
+  1000000181,
+  1000000179,
+  1000000159,
+  1000000184,
+  1000000142,
   1000000115,
+  1000000136,
   1000000131,
+  1000000198,
 ];
 
 export const initialBranchesValue = [

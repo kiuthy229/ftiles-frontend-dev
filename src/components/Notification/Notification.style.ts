@@ -18,13 +18,14 @@ export const ActivityItem = styled.li`
   align-items: center;
   font-size: 14px;
   cursor: pointer;
-  padding: 0 10px 0 10px;
+  padding: 3px 0 4px 0;
   &:hover {
     background-color: #ece8ff;
   }
 `;
 
-export const ActivityImage = styled.img`
+export const ActivityImage = styled.div`
+  margin: 0 0 0 5px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -32,6 +33,7 @@ export const ActivityImage = styled.img`
 
 export const ActivityContent = styled.p`
   padding: 0 0 0 10px;
+  margin: 0;
 `;
 export const MessageText = styled.span`
   margin: 0 2px 0 2px;
@@ -41,6 +43,7 @@ export const MessageBoldText = styled.span`
   font-weight: 600;
 `;
 export const MessageTime = styled.p`
+  margin: 0;
   padding: 0 0 0 10px;
   font-style: normal;
   font-size: 12px;

@@ -1,16 +1,11 @@
-import axios from "axios";
 import React, {
   FunctionComponent,
   useContext,
   useEffect,
-  useLayoutEffect,
   useState,
 } from "react";
-import {
-  initialBranchesList,
-  requestURL,
-  WidgetTitle,
-} from "../../common/common";
+import { WidgetTitle } from "../../common/common";
+import { useAxios } from "../../common/useAxios";
 import { numberWithCommas } from "../../utils/format/format";
 import { MyContext } from "../Theme";
 import {
@@ -27,79 +22,70 @@ interface TopWidgetProps {
   type: WidgetTitle;
 }
 
+const allRevenueUrl =
+  "ftiles/dashboard/revenue/allRevenue?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000";
+const allInvoiceUrl =
+  "ftiles/dashboard/invoice/allInvoice?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000";
+
 const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
   let data;
 
+  const [revenueDataUrl, setRevenueDataUrl] = useState<string>(allRevenueUrl);
+  const [invoiceDataUrl, setInvoiceDataUrl] = useState<string>(allInvoiceUrl);
   const [invoiceData, setInvoiceData] = useState<number>();
   const [revenueData, setRevenueData] = useState<number>();
   const { branchData } = useContext<any>(MyContext);
-  const [branch, setBranch] = useState<number[]>(initialBranchesList);
-
-  const fetchRevenueData = async () => {
-    return await axios
-      .get(
-        `${requestURL}ftiles/dashboard/revenue/allRevenue?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000`,
-        { data: { method: "HEAD", mode: "no-cors" } }
-      )
-      .then((data: any) => {
-        setRevenueData(data.data.data);
-      });
-  };
-
-  const fetchInvoiceData = async () => {
-    return await axios
-      .get(
-        `${requestURL}ftiles/dashboard/invoice/allInvoice?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&branchIds=${branch}`,
-        { data: { method: "HEAD", mode: "no-cors" } }
-      )
-      .then((data: any) => {
-        setInvoiceData(data.data.data);
-      });
-  };
-
-  useLayoutEffect(() => {
-    fetchRevenueData();
-    fetchInvoiceData();
-  }, [branch]);
+  // const [branch, setBranch] = useState<number[]>(initialBranchesList);
+  let {
+    apiData: apiRevenueData,
+    loading: allRevenueDataLoading,
+  }: any = useAxios(revenueDataUrl);
+  let {
+    apiData: apiInvoiceData,
+    loading: allInvoiceDataLoading,
+  }: any = useAxios(invoiceDataUrl);
 
   useEffect(() => {
-    setInvoiceData(0);
-    setBranch(branchData);
+    setInvoiceData(apiInvoiceData);
+    setRevenueData(apiRevenueData);
+  }, [apiInvoiceData, apiRevenueData]);
+
+  useEffect(() => {
+    setRevenueDataUrl(
+      `ftiles/dashboard/revenue/allRevenue?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000&branchIds=${branchData}`
+    );
+    setInvoiceDataUrl(
+      `ftiles/dashboard/invoice/allInvoice?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000&branchIds=${branchData}`
+    );
   }, [branchData]);
 
   switch (type) {
     case WidgetTitle.TOTAL_INVOICE:
       data = {
-        title: invoiceData ? `${invoiceData} hóa đơn` : "0 hóa đơn",
-        amount: revenueData ? numberWithCommas(revenueData) : "0",
+        title: allInvoiceDataLoading
+          ? "0 hóa đơn"
+          : invoiceData
+          ? `${invoiceData} hóa đơn`
+          : "0 hóa đơn",
+        amount: allRevenueDataLoading
+          ? "0"
+          : revenueData
+          ? numberWithCommas(revenueData)
+          : "0",
         link: "Doanh thu",
         icon: null,
       };
       break;
-    case WidgetTitle.TOTAL_REQUEST:
-      data = {
-        title: "0 phiếu",
-        amount: 0,
-        link: "Xem tất cả phiếu",
-        icon: null,
-      };
-      break;
+
     case WidgetTitle.TODAY_ORDERS:
       data = {
         title: "Số đơn hôm nay",
-        amount: 0,
+        amount: allInvoiceDataLoading ? 0 : invoiceData ? `${invoiceData}` : 0,
         link: "Xem tất cả đơn",
         icon: null,
       };
       break;
-    case WidgetTitle.RECENT_ACTIVITY:
-      data = {
-        title: "Hoạt động gần đây",
-        amount: 0,
-        link: "Xem chi tiết",
-        icon: null,
-      };
-      break;
+
     default:
       break;
   }

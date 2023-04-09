@@ -13,10 +13,9 @@ import {
   Title,
 } from "chart.js";
 import {
-  initialBranchesList,
   requestURL,
   stackedBarChartFilterOptions,
-  stackedBarChartTitle,
+  STACKED_BAR_CHART_TITLE,
 } from "../../common/common";
 import {
   StackedBarChartContainer,
@@ -26,6 +25,7 @@ import {
 } from "./StackedBarChart.style";
 import axios from "axios";
 import { MyContext } from "../Theme";
+import { useAxios } from "../../common/useAxios";
 
 //doanh thu thuần tháng này
 export interface AllRevenueDetails {
@@ -66,6 +66,9 @@ const options = {
   },
 };
 
+const defaultUrl =
+  "ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&timeUnit=weekday";
+
 const StackedBarChart: React.FC = () => {
   ChartJS.register(
     CategoryScale,
@@ -83,30 +86,19 @@ const StackedBarChart: React.FC = () => {
   const [option, setOption] = useState<string>(
     stackedBarChartFilterOptions[0].value
   );
-
+  const [url, setUrl] = useState<string>(defaultUrl);
+  let { apiData, loading }: any = useAxios(url);
   const { branchData } = useContext<any>(MyContext);
-  const [branch, setBranch] = useState<number[]>(initialBranchesList);
-
-  const fetchData = async () => {
-    return await axios
-      .get(
-        `${requestURL}ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&timeUnit=${option}&branchIds=${branch}`,
-        { data: { method: "HEAD", mode: "no-cors" } }
-      )
-      .then((data: any) => {
-        setRevenueByTimeUnitData(data.data.data);
-        setRotateData(rotateDataForStackedBar(data.data, option));
-      });
-  };
 
   useLayoutEffect(() => {
-    fetchData();
-  }, [option, branch]);
+    setRotateData(rotateDataForStackedBar(apiData, option));
+  }, [apiData, option]);
 
   useEffect(() => {
-    setRevenueByTimeUnitData({});
-    setBranch(branchData);
-  }, [branchData]);
+    setUrl(
+      `ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&timeUnit=${option}&branchIds=${branchData}`
+    );
+  }, [branchData, option]);
 
   const handleChangeFilterOption = (e: any) => {
     setSelectedOption(e);
@@ -114,12 +106,13 @@ const StackedBarChart: React.FC = () => {
     setRevenueByTimeUnitData({});
   };
 
-  let labels =
-    option === stackedBarChartFilterOptions[0].value
-      ? weekDays
-      : option === stackedBarChartFilterOptions[1].value
-      ? date
-      : hour;
+  let labels = loading
+    ? null
+    : option === stackedBarChartFilterOptions[0].value
+    ? weekDays
+    : option === stackedBarChartFilterOptions[1].value
+    ? date
+    : hour;
   const data = {
     labels,
     datasets: [
@@ -159,7 +152,7 @@ const StackedBarChart: React.FC = () => {
   return (
     <StackedBarChartContainer>
       <StackedBarChartHeader>
-        <StackedBarChartTitle>{stackedBarChartTitle}</StackedBarChartTitle>
+        <StackedBarChartTitle>{STACKED_BAR_CHART_TITLE}</StackedBarChartTitle>
 
         <StyledSelect
           defaultValue={selectedOption}

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import {
   BranchHeader,
   BranchHeaderText,
+  BranchSelect,
   CenterContainer,
   CenterItem,
   CenterItemList,
@@ -23,10 +24,10 @@ import {
   StyledSettingsApplicationsIcon,
   StyledStoreIcon,
 } from "./SideBar.style";
-import { initialBranchesValue, requestURL } from "../../common/common";
-import logo from "../../assets/logo.png";
-import axios from "axios";
+import { initialBranchesValue } from "../../common/common";
 import { MyContext } from "../Theme";
+import { useAxios } from "../../common/useAxios";
+import logo from "../../assets/logo.png";
 
 interface SideBarProps {}
 
@@ -40,20 +41,18 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
     initialBranchesValue
   );
   const { actions } = useContext<any>(MyContext);
-
-  const fetchData = async () => {
-    return await axios
-      .get(`${requestURL}ftiles/branch/allBranches`, {
-        data: { method: "HEAD", mode: "no-cors" },
-      })
-      .then((data: any) => {
-        setAllBranches(data.data.data);
-      });
-  };
+  const branchOptions = allBranches
+    ? allBranches.map((branch) => ({
+        value: branch.id,
+        label: branch.branchName,
+      }))
+    : [];
+  const [selectedOption] = useState(branchOptions[0]);
+  let { apiData, loading }: any = useAxios("ftiles/branch/allBranches");
 
   useLayoutEffect(() => {
-    fetchData();
-  }, []);
+    setAllBranches(apiData);
+  }, [loading]);
 
   return (
     <SideBarContainer>
@@ -74,16 +73,17 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
             <BranchHeaderText>CHI NHÁNH</BranchHeaderText>
           </BranchHeader>
 
-          {allBranches
-            ? allBranches.map((branch, id) => (
-                <CenterItem
-                  key={id}
-                  onClick={() => actions.chooseBranch(branch.id)}
-                >
-                  <ItemText>{branch.branchName}</ItemText>
-                </CenterItem>
-              ))
-            : null}
+          <CenterItem>
+            <BranchSelect
+              defaultValue={selectedOption}
+              onChange={(e: any) => actions.chooseBranch(e.value)}
+              options={branchOptions}
+              components={{
+                DropdownIndicator: () => null,
+                IndicatorSeparator: () => null,
+              }}
+            />
+          </CenterItem>
 
           <br />
 

@@ -8,12 +8,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import axios from "axios";
 import {
   horizontalBarChartFilterOptions,
-  horizontalBarChartTitle,
-  initialBranchesList,
-  requestURL,
+  HORIZONTAL_BAR_CHART_TITLE,
 } from "../../common/common";
 import {
   HorizontalBarChartContainer,
@@ -24,6 +21,7 @@ import {
 import { StyledSelect } from "../StackedBarChart/StackedBarChart.style";
 import { wrapLabelAxis } from "../../utils/wrapLabelAxis";
 import { MyContext } from "../Theme";
+import { useAxios } from "../../common/useAxios";
 
 export type AllTopProductsData = {
   productId: string;
@@ -36,7 +34,7 @@ export type AllTopProductsData = {
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
+  BarElement as any,
   Title,
   Tooltip,
   Legend
@@ -61,6 +59,9 @@ export const options = {
   },
 };
 
+const defaultUrl =
+  "ftiles/dashboard/product/allTopProduct?fromDate=2023-03-1T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000&by=revenue";
+
 const HorizontalBarChart: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState(
     horizontalBarChartFilterOptions[0]
@@ -71,28 +72,19 @@ const HorizontalBarChart: React.FC = () => {
   const [topProductsData, setTopProductsData] = useState<AllTopProductsData[]>(
     []
   );
+  const [url, setUrl] = useState<string>(defaultUrl);
+  let { apiData, loading }: any = useAxios(url);
   const { branchData } = useContext<any>(MyContext);
-  const [branch, setBranch] = useState<number[]>(initialBranchesList);
-
-  const fetchData = async () => {
-    return await axios
-      .get(
-        `${requestURL}ftiles/dashboard/product/allTopProduct?fromDate=2023-02-01T00:00:00.0000000&toDate=2023-02-28T23:59:00.0000000&by=${option}&branchIds=${branch}`,
-        { data: { method: "HEAD", mode: "no-cors" } }
-      )
-      .then((data: any) => {
-        setTopProductsData(data.data.data);
-      });
-  };
 
   useLayoutEffect(() => {
-    fetchData();
-  }, [option, branch]);
+    setTopProductsData(apiData);
+  }, [apiData]);
 
   useEffect(() => {
-    setTopProductsData([]);
-    setBranch(branchData);
-  }, [branchData]);
+    setUrl(
+      `ftiles/dashboard/product/allTopProduct?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000&by=${option}&branchIds=${branchData}`
+    );
+  }, [branchData, option]);
 
   const handleChangeFilterOption = (e: any) => {
     setSelectedOption(e);
@@ -100,16 +92,22 @@ const HorizontalBarChart: React.FC = () => {
     setTopProductsData([]);
   };
 
-  const labels = topProductsData.map((product) =>
-    wrapLabelAxis(product.productName, 20)
-  );
+  const labels = loading
+    ? null
+    : topProductsData
+    ? topProductsData.map((product) => wrapLabelAxis(product.productName, 20))
+    : null;
 
   const data = {
     labels,
     datasets: [
       {
         label: "",
-        data: topProductsData.map((product) => product.revenue),
+        data: loading
+          ? null
+          : topProductsData
+          ? topProductsData.map((product) => product.revenue)
+          : null,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
@@ -120,7 +118,7 @@ const HorizontalBarChart: React.FC = () => {
     <HorizontalBarChartContainer>
       <HorizontalBarChartHeader>
         <HorizontalBarChartTitle>
-          {horizontalBarChartTitle}
+          {HORIZONTAL_BAR_CHART_TITLE}
         </HorizontalBarChartTitle>
         <StyledSelect
           defaultValue={selectedOption}
@@ -128,7 +126,7 @@ const HorizontalBarChart: React.FC = () => {
           options={horizontalBarChartFilterOptions}
         />
       </HorizontalBarChartHeader>
-      <StyledHorizontalBarChart options={options} data={data} />
+      <StyledHorizontalBarChart options={options} data={data as any} />
     </HorizontalBarChartContainer>
   );
 };

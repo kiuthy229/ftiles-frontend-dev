@@ -1,21 +1,16 @@
 import React, { FunctionComponent, useState } from "react";
-import { initialBranchesList } from "../common/common";
+import { branches} from "../common/common";
 
 interface ThemeProviderProps {
   children: React.ReactNode;
 }
-
-const initialState = {
-  branches: initialBranchesList,
-};
-
-export const MyContext = React.createContext(initialState);
+export const MyContext = React.createContext(null);
 
 const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({ children }) => {
-  const [branchData, setBranchData] = useState<number[]>([]);
+  const [branchData, setBranchData] = useState<number[]>(branches);
   const [actions] = useState<any>({
     chooseBranch: (branch: number) => {
-      setBranchData([...branchData, branch]);
+      setBranchData([branch]);
       return branchData;
     },
   });

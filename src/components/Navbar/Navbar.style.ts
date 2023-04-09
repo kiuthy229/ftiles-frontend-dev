@@ -9,7 +9,6 @@ export const NavbarContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 14px;
-  color: #555;
   position: fixed;
   background-color: #ffffff;
 
@@ -21,6 +20,7 @@ export const NavbarContainer = styled.div`
       margin-top: 0;
     }
   }
+  z-index: 9;
 `;
 
 export const Wrapper = styled.div`
