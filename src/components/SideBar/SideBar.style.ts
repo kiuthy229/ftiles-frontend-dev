@@ -99,6 +99,7 @@ export const BranchHeader = styled.p`
 export const BranchHeaderText = styled.span``;
 
 export const BranchSelect = styled(Select)`
+  min-width: 18vh;
   font-size: 13px;
   &::-webkit-scrollbar {
     visibility: hidden;
