@@ -10,18 +10,18 @@ export const HORIZONTAL_BAR_CHART_TITLE = "TOP 10 HÀNG HÓA BÁN CHẠY THÁNG 
 
 export const PIE_CHART_TITLE = "DOANH THU THUẦN THEO CHI NHÁNH THÁNG NÀY";
 
-export const stackedBarChartFilterOptions = [
+export const StackedBarChartTimeRangeFilterOptions = [
   { value: "weekday", label: "Theo thứ" },
   { value: "date", label: "Theo ngày" },
   { value: "hour", label: "Theo giờ" },
 ];
 
-export const horizontalBarChartFilterOptions = [
-  { value: "revenue", label: "Theo revenue" },
-  { value: "quantity", label: "Theo quantity" },
+export const HorizontalBarChartFilterOptions = [
+  { value: "revenue", label: "Theo doanh thu" },
+  { value: "quantity", label: "Theo số lượng" },
 ];
 
-export const pieChartFilterOptions = [
+export const TimeRangeFilterOptions = [
   { value: "today", label: "Hôm nay" },
   { value: "yesterday", label: "Hôm qua" },
   { value: "last_week", label: "7 ngày qua" },

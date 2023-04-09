@@ -22,7 +22,7 @@ import {
   defaultDate,
   fromLastMonth,
   LOADING_MESSAGE,
-  stackedBarChartFilterOptions,
+  StackedBarChartTimeRangeFilterOptions,
   STACKED_BAR_CHART_TITLE,
 } from "../../common/common";
 import {
@@ -85,11 +85,11 @@ const StackedBarChart: React.FC = () => {
     Legend
   );
   const [selectedOption, setSelectedOption] = useState(
-    stackedBarChartFilterOptions[0]
+    StackedBarChartTimeRangeFilterOptions[0]
   );
   let rotateData: AllRevenueStates = {};
   const [option, setOption] = useState<string>(
-    stackedBarChartFilterOptions[0].value
+    StackedBarChartTimeRangeFilterOptions[0].value
   );
   const [url, setUrl] = useState<string>(defaultUrl);
   let { apiData, loading }: any = useAxios(url);
@@ -126,9 +126,9 @@ const StackedBarChart: React.FC = () => {
 
   let labels = loading
     ? LOADING_MESSAGE
-    : option === stackedBarChartFilterOptions[0].value
+    : option === StackedBarChartTimeRangeFilterOptions[0].value
     ? weekDays
-    : option === stackedBarChartFilterOptions[1].value
+    : option === StackedBarChartTimeRangeFilterOptions[1].value
     ? date
     : hour;
   const data = {
@@ -136,63 +136,77 @@ const StackedBarChart: React.FC = () => {
     datasets: [
       {
         label: Object.keys(rotateData)[0] ? Object.keys(rotateData)[0] : "",
-        backgroundColor: "rgba(75, 192, 192, 0.5)",
+        backgroundColor: "#009FBD",
         data: Object.values(rotateData)[0],
       },
       {
         label: Object.keys(rotateData)[1] ? Object.keys(rotateData)[1] : "",
-        backgroundColor: "rgba(75, 342, 142, 0.5)",
+        backgroundColor: "#FCE22A",
         data: Object.values(rotateData)[1],
       },
       {
         label: Object.keys(rotateData)[2] ? Object.keys(rotateData)[2] : "",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "#0081C9",
         data: Object.values(rotateData)[2],
       },
       {
         label: Object.keys(rotateData)[3] ? Object.keys(rotateData)[3] : "",
-        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        backgroundColor: "#AACB73",
         data: Object.values(rotateData)[3],
       },
       {
         label: Object.keys(rotateData)[4] ? Object.keys(rotateData)[4] : "",
-        backgroundColor: "#E8A0BF",
+        backgroundColor: "#40DFEF",
         data: Object.values(rotateData)[4],
       },
       {
         label: Object.keys(rotateData)[5] ? Object.keys(rotateData)[5] : "",
-        backgroundColor: "rgba(255, 206, 86, 0.5)",
+        backgroundColor: "#B34180",
         data: Object.values(rotateData)[5],
       },
       {
-        label: Object.keys(rotateData)[6] ? Object.keys(rotateData)[0] : "",
+        label: Object.keys(rotateData)[6] ? Object.keys(rotateData)[6] : "",
         backgroundColor: "#F9E2AF",
         data: Object.values(rotateData)[6],
       },
       {
-        label: Object.keys(rotateData)[7] ? Object.keys(rotateData)[1] : "",
+        label: Object.keys(rotateData)[7] ? Object.keys(rotateData)[7] : "",
         backgroundColor: "#FA9884",
         data: Object.values(rotateData)[7],
       },
       {
-        label: Object.keys(rotateData)[8] ? Object.keys(rotateData)[2] : "",
+        label: Object.keys(rotateData)[8] ? Object.keys(rotateData)[8] : "",
         backgroundColor: "#576CBC",
         data: Object.values(rotateData)[8],
       },
       {
-        label: Object.keys(rotateData)[9] ? Object.keys(rotateData)[3] : "",
+        label: Object.keys(rotateData)[9] ? Object.keys(rotateData)[9] : "",
         backgroundColor: "#A9907E",
         data: Object.values(rotateData)[9],
       },
       {
-        label: Object.keys(rotateData)[10] ? Object.keys(rotateData)[4] : "",
-        backgroundColor: "#9DC08B",
+        label: Object.keys(rotateData)[10] ? Object.keys(rotateData)[10] : "",
+        backgroundColor: "#7743DB",
         data: Object.values(rotateData)[10],
       },
       {
-        label: Object.keys(rotateData)[11] ? Object.keys(rotateData)[5] : "",
-        backgroundColor: "#BAD7E9",
+        label: Object.keys(rotateData)[11] ? Object.keys(rotateData)[11] : "",
+        backgroundColor: "#9ADCFF",
         data: Object.values(rotateData)[11],
+      },
+      {
+        label: Object.keys(rotateData)[12] ? Object.keys(rotateData)[12] : "",
+        backgroundColor: "#55B3B1",
+        data: Object.values(rotateData)[12],
+      },
+      {
+        label: Object.keys(rotateData)[13] ? Object.keys(rotateData)[13] : "",
+        backgroundColor: "#FF7B54",
+        data: Object.values(rotateData)[13],
+      },      {
+        label: Object.keys(rotateData)[13] ? Object.keys(rotateData)[13] : "",
+        backgroundColor: "#0E49B5",
+        data: Object.values(rotateData)[13],
       },
     ],
   };
@@ -205,7 +219,7 @@ const StackedBarChart: React.FC = () => {
         <StyledSelect
           defaultValue={selectedOption}
           onChange={(e: any) => handleChangeFilterOption(e)}
-          options={stackedBarChartFilterOptions}
+          options={StackedBarChartTimeRangeFilterOptions}
         />
       </StackedBarChartHeader>
 

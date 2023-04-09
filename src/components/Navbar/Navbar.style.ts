@@ -71,17 +71,18 @@ export const ButtonItem = styled.div`
   margin-right: 20px;
   position: relative;
   cursor: pointer;
-  background-color: #e5ecf6;
+  background-color: #c1f4c5;
   padding: 10px;
   border-radius: 6px;
   &:hover {
-    background-color: #c7d5e9;
+    background-color: #8fd9a8;
   }
 `;
 
 export const ButtonItemText = styled.div`
   font-weight: bolder;
   font-size: 14px;
+  color: #006a71;
 `;
 
 export const Item = styled.div`

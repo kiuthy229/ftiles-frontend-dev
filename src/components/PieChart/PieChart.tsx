@@ -11,11 +11,13 @@ import { MyContext } from "../Theme/Theme";
 import { useAxios } from "../../common/useAxios";
 import {
   defaultDate,
+  fromLastMonth,
   LOADING_MESSAGE,
   NOT_FOUND_MESSAGE,
-  pieChartFilterOptions,
   PIE_CHART_TITLE,
+  TimeRangeFilterOptions,
 } from "../../common/common";
+import { TimeRange } from "../../types";
 
 //doanh thu thuần theo chi nhánh tháng này
 export type AllBranchRevenueData = {
@@ -59,12 +61,7 @@ const options = {
   maintainAspectRatio: true,
 };
 
-type TimeRange = {
-  from: string;
-  to: string;
-};
-
-const defaultUrl = `ftiles/dashboard/revenue/allBranchRevenue?fromDate=${defaultDate.from}&toDate=${defaultDate.to}`;
+const defaultUrl = `ftiles/dashboard/revenue/allBranchRevenue?fromDate=${fromLastMonth}&toDate=${defaultDate.to}`;
 
 const PieChart: React.FC = ({}) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
@@ -73,7 +70,7 @@ const PieChart: React.FC = ({}) => {
   let { apiData, loading }: any = useAxios(url);
   const { branchData } = useContext<any>(MyContext);
   const [selectedOption, setSelectedOption] = useState(
-    pieChartFilterOptions[0]
+    TimeRangeFilterOptions[3]
   );
   const [date, setDate] = useState<TimeRange>({
     from: defaultDate.from,
@@ -88,7 +85,9 @@ const PieChart: React.FC = ({}) => {
 
   useEffect(() => {
     setUrl(
-      `ftiles/dashboard/revenue/allBranchRevenue?fromDate=${date.from}&toDate=${date.to}&branchIds=${branchData}`
+      `ftiles/dashboard/revenue/allBranchRevenue?fromDate=${date.from}&toDate=${
+        date.to
+      }${branchData && branchData.length > 0 ? `&branchIds=${branchData}` : ``}`
     );
   }, [date]);
 
@@ -178,13 +177,20 @@ const PieChart: React.FC = ({}) => {
             )
           : [100],
         backgroundColor: [
-          "#C6C7F8",
-          "#95A4FC",
-          "#BAEDBD",
-          "#FEE4CD",
-          "#EDBABA",
-          "#D8BCDC",
-          "#4C81D0",
+          "#FFD56B",
+          "#0E49B5",
+          "#54E346",
+          "#E05297",
+          "#FF449F",
+          "#FFB26B",
+          "#01C5C4",
+          "#40A8C4",
+          "#91D18B",
+          "#E8505B",
+          "#12947F",
+          "#5FDDE5",
+          "#EA6227",
+          "649D66",
         ],
         hoverOffset: 4,
       },
@@ -197,7 +203,7 @@ const PieChart: React.FC = ({}) => {
         <StyledPieSelect
           defaultValue={selectedOption}
           onChange={(e: any) => handleChangeFilterOption(e)}
-          options={pieChartFilterOptions}
+          options={TimeRangeFilterOptions}
         />
       </PieChartTitleContainer>
 

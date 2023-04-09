@@ -1,7 +1,7 @@
 import React, {
   FunctionComponent,
   useContext,
-  useLayoutEffect,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -16,18 +16,12 @@ import {
   CenterContainer,
   CenterItem,
   CenterItemList,
-  ItemText,
   Logo,
   LogoContainer,
   LogoImage,
   SideBarContainer,
-  StyledAccountCircleOutlinedIcon,
-  StyledExitToAppIcon,
-  StyledLocalShippingIcon,
-  StyledSettingsApplicationsIcon,
   StyledStoreIcon,
 } from "./SideBar.style";
-import { initialBranchesValue } from "../../common/common";
 import { MyContext } from "../Theme/Theme";
 import { useAxios } from "../../common/useAxios";
 
@@ -39,18 +33,23 @@ export type allBranchesData = {
 };
 
 const SideBar: FunctionComponent<SideBarProps> = () => {
-  let allBranches: allBranchesData[] = initialBranchesValue;
+  const [allBranches, setAllBranches] = useState<allBranchesData[]>([]);
   const { actions } = useContext<any>(MyContext);
-  const branchOptions = allBranches
+  let { apiData, loading }: any = useAxios("ftiles/branch/allBranches");
+  let branchOptions = loading
+    ? []
+    : allBranches && allBranches.length !== 0
     ? allBranches.map((branch) => ({
         value: branch.id,
         label: branch.branchName,
       }))
     : [];
-  const [selectedOption] = useState([]);
-  let { apiData, loading }: any = useAxios("ftiles/branch/allBranches");
 
-  allBranches = useMemo(() => apiData, [apiData]);
+    
+    useEffect(() => {
+    setAllBranches(apiData);
+    console.log(allBranches);
+  }, [apiData]);
 
   return (
     <SideBarContainer>
@@ -73,11 +72,12 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
 
           <CenterItem>
             <BranchSelect
-              defaultValue={selectedOption}
-              onChange={(e: any) => actions.chooseBranch(e.value)}
+              defaultValue={[]}
+              isMulti
+              onChange={(e: any) => actions.chooseBranch(e.map((data:any)=>data.value))}
               maxMenuHeight={220}
               menuPlacement="auto"
-              options={loading ? ["loading..."] : branchOptions}
+              options={branchOptions}
               components={{
                 DropdownIndicator: () => null,
                 IndicatorSeparator: () => null,

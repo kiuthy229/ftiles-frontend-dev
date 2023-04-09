@@ -9,7 +9,7 @@ export const WidgetContainer = styled.div`
   box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   border-radius: 10px;
   height: 100px;
-  background-color: #edf1f7;
+  background-color: #E1FFEE;
 `;
 
 export const WidgetLeftSide = styled.div`

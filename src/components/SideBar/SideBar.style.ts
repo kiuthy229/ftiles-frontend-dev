@@ -47,16 +47,16 @@ export const CenterItemList = styled.ul`
 
 export const StyledStoreIcon = styled(StoreIcon)`
   font-size: 18px;
-  color: #422f8a;
+  color: #00235B;
 `;
 
 export const StyledLocalShippingIcon = styled(LocalShippingIcon)`
   font-size: 18px;
-  color: #422f8a;
+  color: #00235B;
 `;
 export const StyledSettingsApplicationsIcon = styled(SettingsApplicationsIcon)`
   font-size: 18px;
-  color: #422f8a;
+  color: #00235B;
 `;
 export const StyledExitToAppIcon = styled(ExitToAppIcon)`
   font-size: 18px;
@@ -66,7 +66,7 @@ export const StyledAccountCircleOutlinedIcon = styled(
   AccountCircleOutlinedIcon
 )`
   font-size: 18px;
-  color: #422f8a;
+  color: #00235B;
 `;
 
 export const ItemText = styled.span`

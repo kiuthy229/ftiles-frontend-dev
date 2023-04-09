@@ -46,3 +46,7 @@ export enum EVENT_TYPE {
   BUY = "Đặt hàng",
 }
 
+export type TimeRange = {
+  from: string;
+  to: string;
+};
