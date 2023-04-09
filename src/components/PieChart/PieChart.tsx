@@ -9,7 +9,11 @@ import {
 } from "./PieChart.style";
 import { MyContext } from "../Theme";
 import { useAxios } from "../../common/useAxios";
-import { pieChartFilterOptions, PIE_CHART_TITLE } from "../../common/common";
+import {
+  defaultDate,
+  pieChartFilterOptions,
+  PIE_CHART_TITLE,
+} from "../../common/common";
 
 //doanh thu thuần theo chi nhánh tháng này
 export type AllBranchRevenueData = {
@@ -57,8 +61,7 @@ type TimeRange = {
   to: string;
 };
 
-const defaultUrl =
-  "ftiles/dashboard/revenue/allBranchRevenue?fromDate=2023-03-01T00:00:00.0000000&toDate=2023-03-31T23:59:00.0000000";
+const defaultUrl = `ftiles/dashboard/revenue/allBranchRevenue?fromDate=${defaultDate.from}&toDate=${defaultDate.to}`;
 
 const PieChart: React.FC = ({}) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
@@ -70,8 +73,8 @@ const PieChart: React.FC = ({}) => {
     pieChartFilterOptions[0]
   );
   const [date, setDate] = useState<TimeRange>({
-    from: "2023-04-09T00:00:00.0000000",
-    to: "2023-04-09T23:59:00.0000000",
+    from: defaultDate.from,
+    to: defaultDate.to,
   });
 
   useLayoutEffect(() => {
@@ -90,30 +93,28 @@ const PieChart: React.FC = ({}) => {
     switch (selectedOption.value) {
       case "today": {
         setDate({
-          from:
-            new Date().toJSON().substring(11, new Date().toJSON.length - 13) +
-            "00:00:00.0000000",
-          to:
-            new Date().toJSON().substring(11, new Date().toJSON.length - 13) +
-            "23:59:00.0000000",
+          from: defaultDate.from,
+          to: defaultDate.to,
         });
         break;
       }
       case "yesterday": {
         setDate({
-          from: new Date(new Date().setDate(new Date().getDate() - 1))
-            .toJSON()
-            .replace(/.$/, "000"),
-          to: new Date().toJSON().replace(/.$/, "000"),
+          from:
+            new Date(new Date().setDate(new Date().getDate() - 1))
+              .toJSON()
+              .substring(0, 11) + "00:00:00.0000000",
+          to: new Date().toJSON().substring(0, 11) + "00:00:00.0000000",
         });
         break;
       }
       case "last_week": {
         setDate({
-          from: new Date(new Date().setDate(new Date().getDate() - 7))
-            .toJSON()
-            .replace(/.$/, "000"),
-          to: new Date().toJSON().replace(/.$/, "000"),
+          from:
+            new Date(new Date().setDate(new Date().getDate() - 7))
+              .toJSON()
+              .substring(0, 11) + "00:00:00.0000000",
+          to: defaultDate.to,
         });
         break;
       }
@@ -122,7 +123,7 @@ const PieChart: React.FC = ({}) => {
           from: new Date(new Date().setDate(new Date().getDate() - 30))
             .toJSON()
             .replace(/.$/, "000"),
-          to: new Date().toJSON().replace(/.$/, "000"),
+          to: defaultDate.to,
         });
         break;
       }
@@ -149,10 +150,7 @@ const PieChart: React.FC = ({}) => {
       default:
         break;
     }
-    console.log(
-      new Date().toJSON().substring(11, new Date().toJSON.length - 13) +
-        "00:00:00.0000000"
-    );
+    console.log(new Date().toJSON().substring(0, 11) + "23:59:00.0000000");
   }, [selectedOption]);
 
   const handleChangeFilterOption = (e: any) => {
