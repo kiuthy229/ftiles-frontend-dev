@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
 import { date, hour, weekDays } from "../../utils/timeRangeLabelsData";
@@ -95,10 +101,23 @@ const StackedBarChart: React.FC = () => {
   ]);
 
   useEffect(() => {
+    if (
+      url.includes("&timeUnit=weekday" || "&timeUnit=date" || "&timeUnit=hour")
+    ) {
+      setUrl(
+        url.replace(
+          "&timeUnit=weekday" || "&timeUnit=date" || "&timeUnit=hour",
+          `&timeUnit=${option}`
+        )
+      );
+    }
+  }, [option]);
+
+  useEffect(() => {
     setUrl(
       `ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&timeUnit=${option}&branchIds=${branchData}`
     );
-  }, [branchData, option]);
+  }, [branchData]);
 
   const handleChangeFilterOption = (e: { value: string; label: string }) => {
     setSelectedOption(e);

@@ -98,7 +98,6 @@ const HorizontalBarChart: React.FC = () => {
     setUrl(
       `ftiles/dashboard/product/allTopProduct?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&by=${option}&branchIds=${branchData}`
     );
-    console.log("branch data changed");
   }, [branchData]);
 
   const handleChangeFilterOption = (e: { value: string; label: string }) => {

@@ -50,7 +50,7 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
   const [selectedOption] = useState([]);
   let { apiData, loading }: any = useAxios("ftiles/branch/allBranches");
 
-  allBranches = useMemo(() => apiData, [loading]);
+  allBranches = useMemo(() => apiData, [apiData]);
 
   return (
     <SideBarContainer>
@@ -74,11 +74,10 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
           <CenterItem>
             <BranchSelect
               defaultValue={selectedOption}
-              isMulti
-              onChange={(e: any) => {
-                actions.chooseBranch(e.map((data: any) => data.value));
-              }}
-              options={branchOptions}
+              onChange={(e: any) => actions.chooseBranch(e.value)}
+              maxMenuHeight={220}
+              menuPlacement="auto"
+              options={loading ? ["loading..."] : branchOptions}
               components={{
                 DropdownIndicator: () => null,
                 IndicatorSeparator: () => null,
