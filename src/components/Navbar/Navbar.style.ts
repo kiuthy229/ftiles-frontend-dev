@@ -110,7 +110,7 @@ export const NotificationCounter = styled.div`
   display: none;
 `;
 
-export const UserAvatar = styled.img`
+export const UserAvatar = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 50%;

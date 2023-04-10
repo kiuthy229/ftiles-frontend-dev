@@ -10,7 +10,7 @@ export const HORIZONTAL_BAR_CHART_TITLE = "TOP 10 HÀNG HÓA BÁN CHẠY THÁNG 
 
 export const PIE_CHART_TITLE = "DOANH THU THUẦN THEO CHI NHÁNH THÁNG NÀY";
 
-export const StackedBarChartTimeRangeFilterOptions = [
+export const StackedBarChartFilterOptions = [
   { value: "weekday", label: "Theo thứ" },
   { value: "date", label: "Theo ngày" },
   { value: "hour", label: "Theo giờ" },
@@ -30,33 +30,6 @@ export const TimeRangeFilterOptions = [
   { value: "last_quarter", label: "Qúy trước" },
 ];
 
-export const initialBranchesValue = [
-  {
-    id: 1000000146,
-    branchName: "1. Kho Nhà Máy",
-  },
-  {
-    id: 1000000145,
-    branchName: "2. Kho Ngoại Quan",
-  },
-  {
-    id: 1000000114,
-    branchName: "3. Kho Tổng Miền Nam",
-  },
-  {
-    id: 1000000204,
-    branchName: "4. Kho Củ Chi",
-  },
-  {
-    id: 1000000158,
-    branchName: "Chi nhánh thuế",
-  },
-  {
-    id: 1000000202,
-    branchName: "Dev Test",
-  },
-];
-
 export const fromLastMonth =
   new Date(new Date().setDate(new Date().getDate() - 30))
     .toJSON()
@@ -70,6 +43,40 @@ export const defaultDate = {
   to: new Date().toJSON().substring(0, 11) + "23:59:00.0000000",
 };
 
-export const NOT_FOUND_MESSAGE = ["No data for this branch/ time-range"];
+export const NOT_FOUND_MESSAGE = ["Hiện tại chưa có dữ liệu này"];
 
-export const LOADING_MESSAGE = ["Loading..."];
+export const LOADING_MESSAGE = ["Đang tải..."];
+
+export const BackgroundColors = [
+  "#009FBD",
+  "#FCE22A",
+  "#0081C9",
+  "#AACB73",
+  "#40DFEF",
+  "#B34180",
+  "#F9E2AF",
+  "#FA9884",
+  "#576CBC",
+  "#A9907E",
+  "#7743DB",
+  "#9ADCFF",
+  "#55B3B1",
+  "#FF7B54",
+  "#0E49B5",
+  "#FFD56B",
+  "#0E49B5",
+  "#54E346",
+  "#E05297",
+  "#FF449F",
+  "#FFB26B",
+  "#01C5C4",
+  "#40A8C4",
+  "#91D18B",
+  "#E8505B",
+  "#12947F",
+  "#5FDDE5",
+  "#EA6227",
+  "649D66",
+];
+
+export const DisabledColor = ["#EEEEEE"];

@@ -10,7 +10,9 @@ import {
 import { MyContext } from "../Theme/Theme";
 import { useAxios } from "../../common/useAxios";
 import {
+  BackgroundColors,
   defaultDate,
+  DisabledColor,
   fromLastMonth,
   LOADING_MESSAGE,
   NOT_FOUND_MESSAGE,
@@ -18,6 +20,7 @@ import {
   TimeRangeFilterOptions,
 } from "../../common/common";
 import { TimeRange } from "../../types";
+import { selectTimeRange } from "../../utils/selectTimeRange";
 
 //doanh thu thuần theo chi nhánh tháng này
 export type AllBranchRevenueData = {
@@ -73,13 +76,15 @@ const PieChart: React.FC = ({}) => {
     TimeRangeFilterOptions[3]
   );
   const [date, setDate] = useState<TimeRange>({
-    from: defaultDate.from,
+    from: fromLastMonth,
     to: defaultDate.to,
   });
 
   useLayoutEffect(() => {
     setUrl(
-      `ftiles/dashboard/revenue/allBranchRevenue?fromDate=${date.from}&toDate=${date.to}&branchIds=${branchData}`
+      `ftiles/dashboard/revenue/allBranchRevenue?fromDate=${date.from}&toDate=${
+        date.to
+      }${branchData && branchData.length > 0 ? `&branchIds=${branchData}` : ``}`
     );
   }, [branchData]);
 
@@ -92,66 +97,7 @@ const PieChart: React.FC = ({}) => {
   }, [date]);
 
   useEffect(() => {
-    switch (selectedOption.value) {
-      case "today": {
-        setDate({
-          from: defaultDate.from,
-          to: defaultDate.to,
-        });
-        break;
-      }
-      case "yesterday": {
-        setDate({
-          from:
-            new Date(new Date().setDate(new Date().getDate() - 1))
-              .toJSON()
-              .substring(0, 11) + "00:00:00.0000000",
-          to: new Date().toJSON().substring(0, 11) + "00:00:00.0000000",
-        });
-        break;
-      }
-      case "last_week": {
-        setDate({
-          from:
-            new Date(new Date().setDate(new Date().getDate() - 7))
-              .toJSON()
-              .substring(0, 11) + "00:00:00.0000000",
-          to: defaultDate.to,
-        });
-        break;
-      }
-      case "this_month": {
-        setDate({
-          from: new Date(new Date().setDate(new Date().getDate() - 30))
-            .toJSON()
-            .replace(/.$/, "000"),
-          to: defaultDate.to,
-        });
-        break;
-      }
-      case "last_month": {
-        setDate({
-          from: new Date(new Date().setDate(new Date().getDate() - 60))
-            .toJSON()
-            .replace(/.$/, "000"),
-          to: new Date(new Date().setDate(new Date().getDate() - 30))
-            .toJSON()
-            .replace(/.$/, "000"),
-        });
-        break;
-      }
-      case "last_quarter": {
-        setDate({
-          from: new Date(new Date().setDate(new Date().getDate() - 90))
-            .toJSON()
-            .replace(/.$/, "000"),
-          to: new Date().toJSON().replace(/.$/, "000"),
-        });
-        break;
-      }
-      default:
-        break;
-    }
+    setDate(selectTimeRange(selectedOption.value));
   }, [selectedOption]);
 
   const handleChangeFilterOption = (e: { value: string; label: string }) => {
@@ -170,28 +116,17 @@ const PieChart: React.FC = ({}) => {
       {
         label: "",
         data: loading
-          ? [100]
+          ? [1]
           : apiData && apiData.allInvoiceRevenueByEachBranch.length !== 0
           ? apiData.allInvoiceRevenueByEachBranch.map(
               (branch: BranchData) => branch.revenue
             )
-          : [100],
-        backgroundColor: [
-          "#FFD56B",
-          "#0E49B5",
-          "#54E346",
-          "#E05297",
-          "#FF449F",
-          "#FFB26B",
-          "#01C5C4",
-          "#40A8C4",
-          "#91D18B",
-          "#E8505B",
-          "#12947F",
-          "#5FDDE5",
-          "#EA6227",
-          "649D66",
-        ],
+          : [1],
+        backgroundColor: loading
+          ? DisabledColor
+          : apiData && apiData.allInvoiceRevenueByEachBranch.length !== 0
+          ? BackgroundColors
+          : DisabledColor,
         hoverOffset: 4,
       },
     ],

@@ -34,6 +34,7 @@ import { wrapLabelAxis } from "../../utils/wrapLabelAxis";
 import { MyContext } from "../Theme/Theme";
 import { useAxios } from "../../common/useAxios";
 import { TimeRange } from "../../types";
+import { selectTimeRange } from "../../utils/selectTimeRange";
 
 export type AllTopProductsData = {
   productId: string;
@@ -115,66 +116,7 @@ const HorizontalBarChart: React.FC = () => {
   }, [date]);
 
   useEffect(() => {
-    switch (selectedTimeRangeOption.value) {
-      case "today": {
-        setDate({
-          from: defaultDate.from,
-          to: defaultDate.to,
-        });
-        break;
-      }
-      case "yesterday": {
-        setDate({
-          from:
-            new Date(new Date().setDate(new Date().getDate() - 1))
-              .toJSON()
-              .substring(0, 11) + "00:00:00.0000000",
-          to: new Date().toJSON().substring(0, 11) + "00:00:00.0000000",
-        });
-        break;
-      }
-      case "last_week": {
-        setDate({
-          from:
-            new Date(new Date().setDate(new Date().getDate() - 7))
-              .toJSON()
-              .substring(0, 11) + "00:00:00.0000000",
-          to: defaultDate.to,
-        });
-        break;
-      }
-      case "this_month": {
-        setDate({
-          from: new Date(new Date().setDate(new Date().getDate() - 30))
-            .toJSON()
-            .replace(/.$/, "0000"),
-          to: defaultDate.to,
-        });
-        break;
-      }
-      case "last_month": {
-        setDate({
-          from: new Date(new Date().setDate(new Date().getDate() - 60))
-            .toJSON()
-            .replace(/.$/, "0000"),
-          to: new Date(new Date().setDate(new Date().getDate() - 30))
-            .toJSON()
-            .replace(/.$/, "0000"),
-        });
-        break;
-      }
-      case "last_quarter": {
-        setDate({
-          from: new Date(new Date().setDate(new Date().getDate() - 90))
-            .toJSON()
-            .replace(/.$/, "0000"),
-          to: new Date().toJSON().replace(/.$/, "0000"),
-        });
-        break;
-      }
-      default:
-        break;
-    }
+    setDate(selectTimeRange(selectedTimeRangeOption.value));
   }, [selectedTimeRangeOption]);
 
   const handleChangeFilterOption = (e: { value: string; label: string }) => {

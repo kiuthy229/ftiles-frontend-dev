@@ -24,11 +24,10 @@ export const ActivityItem = styled.li`
   }
 `;
 
-export const ActivityImage = styled.div`
+export const ActivityIcon = styled.img`
   margin: 0 0 0 5px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+  width: 24px;
+  height: 24px;
 `;
 
 export const ActivityContent = styled.p`

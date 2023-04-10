@@ -90,7 +90,11 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
     case WidgetTitle.TODAY_ORDERS:
       data = {
         title: "Số đơn hôm nay",
-        amount: todayInvoiceDataLoading ? 0 : todayInvoiceData ? `${todayInvoiceData}` : 0,
+        amount: todayInvoiceDataLoading
+          ? 0
+          : todayInvoiceData
+          ? `${todayInvoiceData}`
+          : 0,
         link: "Xem tất cả đơn",
         icon: null,
       };
@@ -107,9 +111,6 @@ const TopWidget: FunctionComponent<TopWidgetProps> = ({ type }) => {
         <WidgetAmount>{data ? data.amount : null}</WidgetAmount>
         <WidgetLink>{data ? data.link : null}</WidgetLink>
       </WidgetLeftSide>
-      <WidgetRightSide>
-        <WidgetPercentage>NaN</WidgetPercentage>
-      </WidgetRightSide>
     </WidgetContainer>
   );
 };

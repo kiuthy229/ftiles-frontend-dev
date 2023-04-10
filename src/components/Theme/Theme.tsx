@@ -14,10 +14,6 @@ const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({ children }) => {
     },
   });
 
-  useEffect(() => {
-    console.log(branchData);
-  }, [branchData]);
-
   return (
     <MyContext.Provider value={{ actions, branchData } as any}>
       {children}

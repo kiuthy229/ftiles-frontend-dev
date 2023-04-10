@@ -45,10 +45,8 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
       }))
     : [];
 
-    
-    useEffect(() => {
+  useEffect(() => {
     setAllBranches(apiData);
-    console.log(allBranches);
   }, [apiData]);
 
   return (
@@ -74,7 +72,9 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
             <BranchSelect
               defaultValue={[]}
               isMulti
-              onChange={(e: any) => actions.chooseBranch(e.map((data:any)=>data.value))}
+              onChange={(e: any) =>
+                actions.chooseBranch(e.map((data: any) => data.value))
+              }
               maxMenuHeight={220}
               menuPlacement="auto"
               options={branchOptions}

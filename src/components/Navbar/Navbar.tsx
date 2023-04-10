@@ -62,7 +62,11 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
               </Item>
 
               <Item>
-                <UserAvatar src={generateImage()} alt="" />
+                <UserAvatar
+                  style={{
+                    backgroundColor: "#F9E2AF",
+                  }}
+                />
               </Item>
             </RightCornerItems>
           </Wrapper>

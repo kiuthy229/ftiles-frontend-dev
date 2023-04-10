@@ -1,13 +1,7 @@
-import React, {
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
 import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
-import { date, hour, weekDays } from "../../utils/timeRangeLabelsData";
+import { dates, hours, week_days } from "../../utils/timeRangeLabelsData";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -22,8 +16,11 @@ import {
   defaultDate,
   fromLastMonth,
   LOADING_MESSAGE,
-  StackedBarChartTimeRangeFilterOptions,
+  NOT_FOUND_MESSAGE,
+  BackgroundColors,
+  StackedBarChartFilterOptions,
   STACKED_BAR_CHART_TITLE,
+  TimeRangeFilterOptions,
 } from "../../common/common";
 import {
   StackedBarChartContainer,
@@ -33,6 +30,9 @@ import {
 } from "./StackedBarChart.style";
 import { MyContext } from "../Theme/Theme";
 import { useAxios } from "../../common/useAxios";
+import { selectTimeRange } from "../../utils/selectTimeRange";
+import { TimeRange } from "../../types";
+import { getLabel } from "../../utils/getLabel";
 
 //doanh thu thuần tháng này
 export interface AllRevenueDetails {
@@ -84,131 +84,102 @@ const StackedBarChart: React.FC = () => {
     Tooltip,
     Legend
   );
-  const [selectedOption, setSelectedOption] = useState(
-    StackedBarChartTimeRangeFilterOptions[0]
+  const [date, setDate] = useState<TimeRange>({
+    from: fromLastMonth,
+    to: defaultDate.to,
+  });
+  const [selectedFilterOption, setSelectedFilterOption] = useState(
+    StackedBarChartFilterOptions[0]
+  );
+  const [selectedTimeRangeOption, setSelectedTimeRangeOption] = useState(
+    TimeRangeFilterOptions[3]
   );
   let rotateData: AllRevenueStates = {};
-  const [option, setOption] = useState<string>(
-    StackedBarChartTimeRangeFilterOptions[0].value
+  const [timeUnit, setTimeUnit] = useState<string>(
+    StackedBarChartFilterOptions[0].value
   );
   const [url, setUrl] = useState<string>(defaultUrl);
   let { apiData, loading }: any = useAxios(url);
   const { branchData } = useContext<any>(MyContext);
 
-  rotateData = useMemo(() => rotateDataForStackedBar(apiData, option), [
+  rotateData = useMemo(() => rotateDataForStackedBar(apiData, timeUnit), [
     apiData,
-    option,
+    timeUnit,
   ]);
 
   useEffect(() => {
-    if (
-      url.includes("&timeUnit=weekday" || "&timeUnit=date" || "&timeUnit=hour")
-    ) {
-      setUrl(
-        url.replace(
-          "&timeUnit=weekday" || "&timeUnit=date" || "&timeUnit=hour",
-          `&timeUnit=${option}`
-        )
-      );
-    }
-  }, [option]);
+    console.log(
+      Object.keys(rotateData).filter((data, id) => Object.keys(rotateData)[id])
+    );
+  }, [rotateData]);
 
   useEffect(() => {
     setUrl(
-      `ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=${fromLastMonth}&toDate=${defaultDate.to}&timeUnit=${option}&branchIds=${branchData}`
+      `ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=${
+        date.from
+      }&toDate=${date.to}&timeUnit=${timeUnit}${
+        branchData && branchData.length > 0 ? `&branchIds=${branchData}` : ``
+      }`
+    );
+  }, [timeUnit]);
+
+  useEffect(() => {
+    setUrl(
+      `ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=${
+        date.from
+      }&toDate=${date.to}${
+        timeUnit ? `&timeUnit=${timeUnit}` : ``
+      }&branchIds=${branchData}`
     );
   }, [branchData]);
 
-  const handleChangeFilterOption = (e: { value: string; label: string }) => {
-    setSelectedOption(e);
-    setOption(e.value);
+  useEffect(() => {
+    setUrl(
+      `ftiles/dashboard/revenue/allBranchRevenueByTimeUnit?fromDate=${
+        date.from
+      }&toDate=${date.to}${timeUnit ? `&timeUnit=${timeUnit}` : ``}${
+        branchData && branchData.length > 0 ? `&branchIds=${branchData}` : ``
+      }`
+    );
+  }, [date]);
+
+  useEffect(() => {
+    setDate(selectTimeRange(selectedTimeRangeOption.value));
+  }, [selectedTimeRangeOption]);
+
+  const handleChangeFilterOption = (event: {
+    value: string;
+    label: string;
+  }) => {
+    setSelectedFilterOption(event);
+    setTimeUnit(event.value);
+  };
+
+  const handleChangeTimeRangeOption = (e: { value: string; label: string }) => {
+    setSelectedTimeRangeOption(e);
   };
 
   let labels = loading
     ? LOADING_MESSAGE
-    : option === StackedBarChartTimeRangeFilterOptions[0].value
-    ? weekDays
-    : option === StackedBarChartTimeRangeFilterOptions[1].value
-    ? date
-    : hour;
+    : apiData && timeUnit
+    ? timeUnit === StackedBarChartFilterOptions[0].value
+      ? week_days
+      : timeUnit === StackedBarChartFilterOptions[1].value
+      ? dates
+      : hours
+    : [NOT_FOUND_MESSAGE];
+
   const data = {
     labels,
-    datasets: [
-      {
-        label: Object.keys(rotateData)[0] ? Object.keys(rotateData)[0] : "",
-        backgroundColor: "#009FBD",
-        data: Object.values(rotateData)[0],
-      },
-      {
-        label: Object.keys(rotateData)[1] ? Object.keys(rotateData)[1] : "",
-        backgroundColor: "#FCE22A",
-        data: Object.values(rotateData)[1],
-      },
-      {
-        label: Object.keys(rotateData)[2] ? Object.keys(rotateData)[2] : "",
-        backgroundColor: "#0081C9",
-        data: Object.values(rotateData)[2],
-      },
-      {
-        label: Object.keys(rotateData)[3] ? Object.keys(rotateData)[3] : "",
-        backgroundColor: "#AACB73",
-        data: Object.values(rotateData)[3],
-      },
-      {
-        label: Object.keys(rotateData)[4] ? Object.keys(rotateData)[4] : "",
-        backgroundColor: "#40DFEF",
-        data: Object.values(rotateData)[4],
-      },
-      {
-        label: Object.keys(rotateData)[5] ? Object.keys(rotateData)[5] : "",
-        backgroundColor: "#B34180",
-        data: Object.values(rotateData)[5],
-      },
-      {
-        label: Object.keys(rotateData)[6] ? Object.keys(rotateData)[6] : "",
-        backgroundColor: "#F9E2AF",
-        data: Object.values(rotateData)[6],
-      },
-      {
-        label: Object.keys(rotateData)[7] ? Object.keys(rotateData)[7] : "",
-        backgroundColor: "#FA9884",
-        data: Object.values(rotateData)[7],
-      },
-      {
-        label: Object.keys(rotateData)[8] ? Object.keys(rotateData)[8] : "",
-        backgroundColor: "#576CBC",
-        data: Object.values(rotateData)[8],
-      },
-      {
-        label: Object.keys(rotateData)[9] ? Object.keys(rotateData)[9] : "",
-        backgroundColor: "#A9907E",
-        data: Object.values(rotateData)[9],
-      },
-      {
-        label: Object.keys(rotateData)[10] ? Object.keys(rotateData)[10] : "",
-        backgroundColor: "#7743DB",
-        data: Object.values(rotateData)[10],
-      },
-      {
-        label: Object.keys(rotateData)[11] ? Object.keys(rotateData)[11] : "",
-        backgroundColor: "#9ADCFF",
-        data: Object.values(rotateData)[11],
-      },
-      {
-        label: Object.keys(rotateData)[12] ? Object.keys(rotateData)[12] : "",
-        backgroundColor: "#55B3B1",
-        data: Object.values(rotateData)[12],
-      },
-      {
-        label: Object.keys(rotateData)[13] ? Object.keys(rotateData)[13] : "",
-        backgroundColor: "#FF7B54",
-        data: Object.values(rotateData)[13],
-      },      {
-        label: Object.keys(rotateData)[13] ? Object.keys(rotateData)[13] : "",
-        backgroundColor: "#0E49B5",
-        data: Object.values(rotateData)[13],
-      },
-    ],
+    datasets: loading
+      ? []
+      : rotateData
+      ? Object.entries(rotateData).map((data, id) => ({
+          label: data[0],
+          data: data[1],
+          backgroundColor: BackgroundColors[id],
+        }))
+      : [],
   };
 
   return (
@@ -217,9 +188,14 @@ const StackedBarChart: React.FC = () => {
         <StackedBarChartTitle>{STACKED_BAR_CHART_TITLE}</StackedBarChartTitle>
 
         <StyledSelect
-          defaultValue={selectedOption}
-          onChange={(e: any) => handleChangeFilterOption(e)}
-          options={StackedBarChartTimeRangeFilterOptions}
+          defaultValue={selectedFilterOption}
+          onChange={(event: any) => handleChangeFilterOption(event)}
+          options={StackedBarChartFilterOptions}
+        />
+        <StyledSelect
+          defaultValue={selectedTimeRangeOption}
+          onChange={(e: any) => handleChangeTimeRangeOption(e)}
+          options={TimeRangeFilterOptions}
         />
       </StackedBarChartHeader>
 

@@ -4,7 +4,7 @@ import {
   ActivityContainer,
   ActivityContent,
   ActivityHeaderContainer,
-  ActivityImage,
+  ActivityIcon,
   ActivityItem,
   MessageBoldText,
   MessageText,
@@ -12,6 +12,8 @@ import {
 } from "./Notification.style";
 import { useAxios } from "../../common/useAxios";
 import { EVENT_TYPE } from "../../types";
+import InvoiceIcon from "../.././assets/invoice.png";
+import ChecklistIcon from "../.././assets/checklist.png";
 
 export type NotificationProps = {};
 
@@ -83,11 +85,10 @@ const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
             ) => (
               <ActivityItem key={index}>
                 <div>
-                  <ActivityImage
-                    style={{
-                      backgroundColor:
-                        event === EVENT_TYPE.SELL ? "#F9E2AF" : "#C7E9B0",
-                    }}
+                  <ActivityIcon
+                    src={
+                      event === EVENT_TYPE.SELL ? InvoiceIcon : ChecklistIcon
+                    }
                   />
                 </div>
                 <div>
