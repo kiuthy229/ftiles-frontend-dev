@@ -33,6 +33,8 @@ const Dashboard: React.FC = () => {
           </WidgetsContainer>
           <ChartsContainer>
             <StackedBarChart />
+          </ChartsContainer>
+          <ChartsContainer>
             <PieChart />
           </ChartsContainer>
           <BottomContainer>

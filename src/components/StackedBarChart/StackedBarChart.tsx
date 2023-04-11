@@ -185,18 +185,22 @@ const StackedBarChart: React.FC = () => {
   return (
     <StackedBarChartContainer>
       <StackedBarChartHeader>
-        <StackedBarChartTitle>{STACKED_BAR_CHART_TITLE}</StackedBarChartTitle>
+        <StackedBarChartHeader>
+          <StackedBarChartTitle>{STACKED_BAR_CHART_TITLE}</StackedBarChartTitle>
+          <StyledSelect
+            defaultValue={selectedFilterOption}
+            onChange={(event: any) => handleChangeFilterOption(event)}
+            options={StackedBarChartFilterOptions}
+          />
+        </StackedBarChartHeader>
 
-        <StyledSelect
-          defaultValue={selectedFilterOption}
-          onChange={(event: any) => handleChangeFilterOption(event)}
-          options={StackedBarChartFilterOptions}
-        />
-        <StyledSelect
-          defaultValue={selectedTimeRangeOption}
-          onChange={(e: any) => handleChangeTimeRangeOption(e)}
-          options={TimeRangeFilterOptions}
-        />
+        <div>
+          <StyledSelect
+            defaultValue={selectedTimeRangeOption}
+            onChange={(e: any) => handleChangeTimeRangeOption(e)}
+            options={TimeRangeFilterOptions}
+          />
+        </div>
       </StackedBarChartHeader>
 
       <Bar data={data as any} options={options} style={{ maxHeight: 450 }} />

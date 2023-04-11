@@ -6,14 +6,12 @@ export const HorizontalBarChartContainer = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   justify-content: space-between;
   flex: 4;
   background-color: #ffffff;
 `;
 
 export const HorizontalBarChartHeader = styled.div`
-  padding: 8px 5px 5px 5px;
   display: flex;
   justify-content: space-between;
 `;

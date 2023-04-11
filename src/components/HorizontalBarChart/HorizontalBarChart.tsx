@@ -156,19 +156,23 @@ const HorizontalBarChart: React.FC = () => {
   return (
     <HorizontalBarChartContainer>
       <HorizontalBarChartHeader>
-        <HorizontalBarChartTitle>
-          {HORIZONTAL_BAR_CHART_TITLE}
-        </HorizontalBarChartTitle>
-        <StyledSelect
-          defaultValue={selectedFilterOption}
-          onChange={(event: any) => handleChangeFilterOption(event)}
-          options={HorizontalBarChartFilterOptions}
-        />
-        <StyledSelect
-          defaultValue={selectedTimeRangeOption}
-          onChange={(e: any) => handleChangeTimeRangeOption(e)}
-          options={TimeRangeFilterOptions}
-        />
+        <HorizontalBarChartHeader>
+          <HorizontalBarChartTitle>
+            {HORIZONTAL_BAR_CHART_TITLE}
+          </HorizontalBarChartTitle>
+          <StyledSelect
+            defaultValue={selectedFilterOption}
+            onChange={(event: any) => handleChangeFilterOption(event)}
+            options={HorizontalBarChartFilterOptions}
+          />
+        </HorizontalBarChartHeader>
+        <div>
+          <StyledSelect
+            defaultValue={selectedTimeRangeOption}
+            onChange={(e: any) => handleChangeTimeRangeOption(e)}
+            options={TimeRangeFilterOptions}
+          />
+        </div>
       </HorizontalBarChartHeader>
       <StyledHorizontalBarChart options={options} data={data as any} />
     </HorizontalBarChartContainer>
