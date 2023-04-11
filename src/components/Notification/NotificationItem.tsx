@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import Pusher from "pusher-js";
 import {
   ActivityContainer,
@@ -30,11 +30,12 @@ const url = "ftiles/activity/nearestActivities";
 
 const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
   let { apiData, loading }: any = useAxios(url);
+  let loadMessages = useMemo(() => apiData, [apiData]);
   const [messages, setMessages] = useState<messageValues[]>([]);
 
   useEffect(() => {
-    setMessages(apiData);
-  }, [apiData]);
+    setMessages(loadMessages);
+  }, [loadMessages]);
 
   useEffect(() => {
     //Set up Pusher client
@@ -78,32 +79,41 @@ const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
             </div>
           </ActivityItem>
         ) : messages ? (
-          messages.map(
-            (
-              { subject, conjunction1, event, conjunction2, withValue, atTime },
-              index
-            ) => (
-              <ActivityItem key={index}>
-                <div>
-                  <ActivityIcon
-                    src={
-                      event === EVENT_TYPE.SELL ? InvoiceIcon : ChecklistIcon
-                    }
-                  />
-                </div>
-                <div>
-                  <ActivityContent>
-                    <MessageBoldText>{subject}</MessageBoldText>
-                    <MessageText>{conjunction1}</MessageText>
-                    <MessageBoldText>{event}</MessageBoldText>
-                    <MessageText>{conjunction2} giá</MessageText>
-                    <MessageBoldText>{withValue}</MessageBoldText>
-                  </ActivityContent>
-                  <MessageTime>{atTime}</MessageTime>
-                </div>
-              </ActivityItem>
+          messages
+            .map(
+              (
+                {
+                  subject,
+                  conjunction1,
+                  event,
+                  conjunction2,
+                  withValue,
+                  atTime,
+                },
+                index
+              ) => (
+                <ActivityItem key={index}>
+                  <div>
+                    <ActivityIcon
+                      src={
+                        event === EVENT_TYPE.SELL ? InvoiceIcon : ChecklistIcon
+                      }
+                    />
+                  </div>
+                  <div>
+                    <ActivityContent>
+                      <MessageBoldText>{subject}</MessageBoldText>
+                      <MessageText>{conjunction1}</MessageText>
+                      <MessageBoldText>{event}</MessageBoldText>
+                      <MessageText>{conjunction2} giá</MessageText>
+                      <MessageBoldText>{withValue}</MessageBoldText>
+                    </ActivityContent>
+                    <MessageTime>{atTime}</MessageTime>
+                  </div>
+                </ActivityItem>
+              )
             )
-          )
+            .reverse()
         ) : null}
       </ActivityContainer>
     </div>
