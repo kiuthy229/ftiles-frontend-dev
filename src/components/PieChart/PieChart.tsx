@@ -116,12 +116,12 @@ const PieChart: React.FC = ({}) => {
       {
         label: "",
         data: loading
-          ? [1]
+          ? ["1"]
           : apiData && apiData.allInvoiceRevenueByEachBranch.length !== 0
           ? apiData.allInvoiceRevenueByEachBranch.map(
               (branch: BranchData) => branch.revenue
             )
-          : [1],
+          : ["1"],
         backgroundColor: loading
           ? DisabledColor
           : apiData && apiData.allInvoiceRevenueByEachBranch.length !== 0

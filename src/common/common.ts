@@ -4,11 +4,11 @@ export const requestURL = "https://ftiles-backend-dev.ftiles.tech/";
 
 export const widgetList = [WidgetTitle.TOTAL_INVOICE, WidgetTitle.TODAY_ORDERS];
 
-export const STACKED_BAR_CHART_TITLE = "DOANH THU THUẦN THÁNG NÀY";
+export const STACKED_BAR_CHART_TITLE = "DOANH THU THUẦN";
 
-export const HORIZONTAL_BAR_CHART_TITLE = "TOP 10 HÀNG HÓA BÁN CHẠY THÁNG NÀY";
+export const HORIZONTAL_BAR_CHART_TITLE = "TOP 10 HÀNG HÓA BÁN CHẠY";
 
-export const PIE_CHART_TITLE = "DOANH THU THUẦN THEO CHI NHÁNH THÁNG NÀY";
+export const PIE_CHART_TITLE = "DOANH THU THUẦN THEO CHI NHÁNH";
 
 export const StackedBarChartFilterOptions = [
   { value: "weekday", label: "Theo thứ" },
