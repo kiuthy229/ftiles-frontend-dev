@@ -9,7 +9,7 @@ export const WidgetContainer = styled.div`
   box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   border-radius: 10px;
   height: 100px;
-  background-color: #ECF2FF;
+  background-color: #ecf2ff;
 `;
 
 export const WidgetLeftSide = styled.div`
@@ -36,7 +36,6 @@ export const WidgetAmount = styled.span`
 export const WidgetLink = styled.span`
   width: max-content;
   font-size: 12px;
-  border-bottom: 1px solid gray;
 `;
 
 export const WidgetPercentage = styled.span`
