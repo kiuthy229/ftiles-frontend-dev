@@ -57,7 +57,7 @@ const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
         atTime: activity.atTime,
       };
       // Add new message to messages state
-      setMessages([...messages, message]);
+      setMessages([message,...messages]);
     });
 
     //Clean up function
@@ -113,7 +113,6 @@ const Notification: React.FC<NotificationProps> = ({}: NotificationProps) => {
                 </ActivityItem>
               )
             )
-            .reverse()
         ) : null}
       </ActivityContainer>
     </div>
