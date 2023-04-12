@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { defaultDate, fromLastMonth } from "../../common/common";
+import { defaultDate, fromLastMonth } from "../../common";
 import { useAxios } from "../../common/useAxios";
 import { WidgetTitle } from "../../types";
 import { numberWithCommas } from "../../utils/format";

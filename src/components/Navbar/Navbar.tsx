@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import {
   ButtonItem,
   ButtonItemText,
@@ -17,7 +15,9 @@ import {
   UserAvatar,
   Wrapper,
 } from "./Navbar.style";
-import { generateImage } from "../../utils/imagesGenerator";
+
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 
 interface NavbarProps {}
 

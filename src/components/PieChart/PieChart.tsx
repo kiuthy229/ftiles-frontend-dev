@@ -18,7 +18,7 @@ import {
   NOT_FOUND_MESSAGE,
   PIE_CHART_TITLE,
   TimeRangeFilterOptions,
-} from "../../common/common";
+} from "../../common";
 import { TimeRange } from "../../types";
 import { selectTimeRange } from "../../utils/selectTimeRange";
 

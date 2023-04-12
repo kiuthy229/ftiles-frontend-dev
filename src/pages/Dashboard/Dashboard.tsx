@@ -9,7 +9,7 @@ import SideBar from "../../components/SideBar/SideBar";
 import TopWidget from "../../components/TopWidget/TopWidget";
 import Notification from "../../components/Notification/NotificationItem";
 
-import { widgetList } from "../../common/common";
+import { widgetList } from "../../common";
 import {
   ActivitiesContainer,
   BottomContainer,

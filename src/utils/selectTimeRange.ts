@@ -1,4 +1,4 @@
-import { defaultDate, fromLastMonth } from "../common/common";
+import { defaultDate, fromLastMonth } from "../common";
 import { TimeRange } from "../types";
 
 export const selectTimeRange = (selectedTimeRangeOptionValue: string) => {

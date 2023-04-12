@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 
-import { rotateDataForStackedBar } from "../../common/helper/rotateDataHelper";
+import { rotateDataForStackedBar } from "../../utils/rotateDataHelper";
 import { dates, hours, week_days } from "../../utils/timeRangeLabelsData";
 import { Bar } from "react-chartjs-2";
 import {
@@ -21,7 +21,7 @@ import {
   StackedBarChartFilterOptions,
   STACKED_BAR_CHART_TITLE,
   TimeRangeFilterOptions,
-} from "../../common/common";
+} from "../../common";
 import {
   StackedBarChartContainer,
   StackedBarChartHeader,
@@ -32,7 +32,6 @@ import { MyContext } from "../Theme/Theme";
 import { useAxios } from "../../common/useAxios";
 import { selectTimeRange } from "../../utils/selectTimeRange";
 import { TimeRange } from "../../types";
-import { getLabel } from "../../utils/getLabel";
 
 //doanh thu thuần tháng này
 export interface AllRevenueDetails {

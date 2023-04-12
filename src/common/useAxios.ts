@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
+import { useCallback, useLayoutEffect, useState } from "react";
 import { AllTopProductsData } from "../components/HorizontalBarChart/HorizontalBarChart";
 import { AllRevenueStates } from "../components/StackedBarChart/StackedBarChart";
 import { AllBranchRevenueData } from "../components/PieChart/PieChart";
-import { requestURL } from "./common";
+import { requestURL } from "../common";
 
 export const useAxios = (url: string) => {
   const [loading, setLoading] = useState<boolean>(false);

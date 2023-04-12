@@ -1,4 +1,4 @@
-import { AllRevenueStates } from "../../components/StackedBarChart/StackedBarChart";
+import { AllRevenueStates } from "../components/StackedBarChart/StackedBarChart";
 
 export function rotateDataForStackedBar(
   data: AllRevenueStates,

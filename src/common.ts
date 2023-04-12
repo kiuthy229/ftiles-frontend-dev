@@ -1,4 +1,4 @@
-import { WidgetTitle } from "../types";
+import { WidgetTitle } from "./types";
 
 export const requestURL = "https://ftiles-backend-dev.ftiles.tech/";
 

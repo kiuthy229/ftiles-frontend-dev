@@ -1,7 +1,6 @@
 import React, {
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useState,
 } from "react";
@@ -22,7 +21,7 @@ import {
   LOADING_MESSAGE,
   NOT_FOUND_MESSAGE,
   TimeRangeFilterOptions,
-} from "../../common/common";
+} from "../../common";
 import {
   HorizontalBarChartContainer,
   HorizontalBarChartHeader,

@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
+
 import Pusher from "pusher-js";
+import InvoiceIcon from "../.././assets/invoice.png";
+import ChecklistIcon from "../.././assets/checklist.png";
+
 import {
   ActivityContainer,
   ActivityContent,
@@ -12,8 +16,6 @@ import {
 } from "./Notification.style";
 import { useAxios } from "../../common/useAxios";
 import { EVENT_TYPE } from "../../types";
-import InvoiceIcon from "../.././assets/invoice.png";
-import ChecklistIcon from "../.././assets/checklist.png";
 
 export type NotificationProps = {};
 

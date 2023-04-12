@@ -2,7 +2,6 @@ import React, {
   FunctionComponent,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 
