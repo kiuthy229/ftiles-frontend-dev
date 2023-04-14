@@ -1,9 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -91,11 +86,13 @@ const HorizontalBarChart: React.FC = () => {
   topProductsData = useMemo(() => apiData, [apiData]);
 
   useEffect(() => {
-    if (url.includes("&by=revenue" || "&by=quantity")) {
-      setUrl(
-        url.replace("&by=revenue" || "&by=quantity", `&by=${filterOption}`)
-      );
-    }
+    setUrl(
+      `ftiles/dashboard/product/allTopProduct?fromDate=${date.from}&toDate=${
+        date.to
+      }&by=${filterOption}${
+        branchData && branchData.length > 0 ? `&branchIds=${branchData}` : ``
+      }`
+    );
   }, [filterOption]);
 
   useEffect(() => {
@@ -141,7 +138,9 @@ const HorizontalBarChart: React.FC = () => {
         data: loading
           ? LOADING_MESSAGE
           : topProductsData && topProductsData.length > 0
-          ? topProductsData.map((product) => product.revenue)
+          ? filterOption === "revenue"
+            ? topProductsData.map((product) => product.revenue)
+            : topProductsData.map((product) => product.quantity)
           : NOT_FOUND_MESSAGE,
         backgroundColor: loading
           ? "#8994a6"

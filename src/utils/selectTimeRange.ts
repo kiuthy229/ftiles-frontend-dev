@@ -33,7 +33,7 @@ export const selectTimeRange = (selectedTimeRangeOptionValue: string) => {
     }
     case "this_month": {
       date = {
-        from: new Date(new Date().setDate(new Date().getDate() - 30))
+        from: new Date(new Date().getFullYear(), new Date().getMonth(), 2)
           .toJSON()
           .replace(/.$/, "0000"),
         to: defaultDate.to,
@@ -42,10 +42,10 @@ export const selectTimeRange = (selectedTimeRangeOptionValue: string) => {
     }
     case "last_month": {
       date = {
-        from: new Date(new Date().setDate(new Date().getDate() - 60))
+        from: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 2)
           .toJSON()
           .replace(/.$/, "0000"),
-        to: new Date(new Date().setDate(new Date().getDate() - 30))
+        to: new Date(new Date().getFullYear(), new Date().getMonth(), 1)
           .toJSON()
           .replace(/.$/, "0000"),
       };
@@ -53,7 +53,7 @@ export const selectTimeRange = (selectedTimeRangeOptionValue: string) => {
     }
     case "last_quarter": {
       date = {
-        from: new Date(new Date().setDate(new Date().getDate() - 90))
+        from: new Date(new Date().getFullYear(), new Date().getMonth() - 3, 2)
           .toJSON()
           .replace(/.$/, "0000"),
         to: new Date().toJSON().replace(/.$/, "0000"),

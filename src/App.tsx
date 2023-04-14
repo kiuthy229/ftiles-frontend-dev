@@ -11,15 +11,13 @@ function App() {
           <Route path="/">
             <Route index element={<Dashboard />} />
             <Route path="login" element={<Dashboard />} />
-            <Route path="users">
+            <Route path="sell">
               <Route index element={<Dashboard />} />
-              <Route path=":userId" element={<Dashboard />} />
-              <Route path="new" element={<Dashboard />} />
+              <Route path="products" element={<Dashboard />} />
+              <Route path="products/:productId" element={<Dashboard />} />
             </Route>
-            <Route path="products">
+            <Route path="dashboard">
               <Route index element={<Dashboard />} />
-              <Route path=":productId" element={<Dashboard />} />
-              <Route path="new" element={<Dashboard />} />
             </Route>
           </Route>
         </Routes>

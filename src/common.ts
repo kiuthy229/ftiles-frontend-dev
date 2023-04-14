@@ -31,15 +31,12 @@ export const TimeRangeFilterOptions = [
 ];
 
 export const fromLastMonth =
-  new Date(new Date().setDate(new Date().getDate() - 30))
+  new Date(new Date().getFullYear(), new Date().getMonth(), 2)
     .toJSON()
     .substring(0, 11) + "23:59:00.0000000";
 
 export const defaultDate = {
-  from:
-    new Date(new Date().setDate(new Date().getDate() - 1))
-      .toJSON()
-      .substring(0, 11) + "23:59:00.0000000",
+  from: new Date().toJSON().substring(0, 11) + "00:00:00.0000000",
   to: new Date().toJSON().substring(0, 11) + "23:59:00.0000000",
 };
 
