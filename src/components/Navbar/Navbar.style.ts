@@ -24,6 +24,7 @@ export const NavbarContainer = styled.div`
 `;
 
 export const Wrapper = styled.div`
+  position: relative;
   width: 100%;
   padding: 20px;
   display: flex;
@@ -38,6 +39,7 @@ export const TabsContainer = styled.div`
   cursor: pointer;
 `;
 export const TabText = styled.span`
+  position: relative;
   font-size: 13px;
   font-weight: 600;
   color: #888;
@@ -45,6 +47,7 @@ export const TabText = styled.span`
 `;
 
 export const SearchContainer = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   border: 0.5px solid lightgray;
@@ -52,6 +55,8 @@ export const SearchContainer = styled.div`
 `;
 
 export const SearchInput = styled.input`
+  position: relative;
+  width: auto;
   border: 6px;
   outline: none;
   background: transparent;
@@ -61,6 +66,7 @@ export const SearchInput = styled.input`
 `;
 
 export const RightCornerItems = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
 `;
@@ -104,7 +110,7 @@ export const NotificationCounter = styled.div`
   justify-content: center;
   font-size: 10px;
   font-weight: bold;
-  position: absolute;
+  position: relative;
   top: -5px;
   right: -5px;
   display: none;
